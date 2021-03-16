@@ -4,70 +4,78 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uber/brand_colors.dart';
+import 'package:uber/screens/loginpage.dart';
 import 'package:uber/screens/mainpage.dart';
-import 'package:uber/screens/registrationpage.dart';
 import 'package:uber/widgets/ProgressDialog.dart';
 import 'package:uber/widgets/TaxiButton.dart';
 
-class LoginPage extends StatefulWidget {
+class RegistrationPage extends StatefulWidget {
 
-  static const String id = 'login';
+  static const String id = 'register';
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegistrationPageState createState() => _RegistrationPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void showSnackBar(String title){
     final snackbar = SnackBar(
-      content: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 15),),
+        content: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 15),),
     );
     scaffoldKey.currentState.showSnackBar(snackbar);
-  }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  var fullNameController = TextEditingController();
+
+  var phoneController = TextEditingController();
 
   var emailController = TextEditingController();
 
   var passwordController = TextEditingController();
 
-  void login() async {
+  void registerUser() async {
     // Show please wait dialog
     showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (BuildContext context) => ProgressDialog(status: 'Logging you in',),
+      builder: (BuildContext context) => ProgressDialog(status: 'Registering you...',),
     );
 
-    final UserCredential user = await _auth.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
+    final UserCredential user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
     ).catchError((ex){
-
       // Check error and display message
       Navigator.pop(context);
       PlatformException thisEx = ex;
       showSnackBar(thisEx.message);
     });
 
-    // if(user != null) {
-    //   // Verify login
-    //   // DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users/${user.uid}');
-    //   userRef.once().then((DataSnapshot snapshot) {
-    //     if (snapshot.value != null){
-    //       Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
-    //       }
-    //   });
-    //
-    // }
+    Navigator.pop(context);
+    // Check if user registration successful
+    // if (user != null) {
+    //   DatabaseReference newUserRef = FirebaseDatabase.instance.reference().child('users/${user.uid}');
+
+      // Prepare data to be saved on users table
+      Map userMap = {
+        'fullname': fullNameController.text,
+        'email': emailController.text,
+        'phone': phoneController.text,
+      };
+
+      // newUserRef.set(userMap);
+
+      // Take the user to mainpage
+      Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -88,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 40,
                 ),
                 Text(
-                  'Sign In as a Rider',
+                  'Create  Rider\'s Account',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 25, fontFamily: 'Brand-Bold'),
                 ),
@@ -96,6 +104,23 @@ class _LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.all(20.0),
                     child: Column(
                       children: <Widget>[
+                        // Full name
+                        TextField(
+                          // controller: fullNameController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              labelText: 'Full name',
+                              labelStyle: TextStyle(
+                                fontSize: 14.0,
+                              ),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey, fontSize: 10.0)),
+                          style: TextStyle(fontSize: 14),
+                        ),
+
+                        SizedBox(height: 10, ),
+
+                        // Email address
                         TextField(
                           // controller: emailController,
                           keyboardType: TextInputType.emailAddress,
@@ -113,6 +138,25 @@ class _LoginPageState extends State<LoginPage> {
                           height: 10,
                         ),
 
+                        // Phone
+                        TextField(
+                          // controller: phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                              labelText: 'Phone number',
+                              labelStyle: TextStyle(
+                                fontSize: 14.0,
+                              ),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey, fontSize: 10.0)),
+                          style: TextStyle(fontSize: 14),
+                        ),
+
+                        SizedBox(
+                          height: 10,
+                        ),
+
+                        // Password
                         TextField(
                           // controller: passwordController,
                           obscureText: true,
@@ -131,39 +175,45 @@ class _LoginPageState extends State<LoginPage> {
                         ),
 
                         TaxiButton(
-                          title: 'LOGIN',
+                          title: 'REGISTER',
                           color: BrandColors.colorGreen,
-                          onPressed: () async {
-                            // Check network awavillability
+                          onPressed: () async{
+                            // // Check network awavillability
                             // var connectivityResult = await Connectivity().checkConnectivity();
                             // if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
                             //   showSnackBar('No internet connectivity');
                             //   return;
                             // }
                             //
-                            // if (!emailController.text.contains('@')) {
-                            //   showSnackBar('Please enter a valid email address');
+                            // if (fullNameController.text.length < 3) {
+                            //   showSnackBar('Please provide a valid fullname');
+                            //   return ;
+                            // }
+                            // if (phoneController.text.length < 10) {
+                            //   showSnackBar('Please provide a valid phone number');
                             //   return;
                             // }
-                            //
+                            // if (!emailController.text.contains('@')) {
+                            //   showSnackBar('Please provide a valid email address');
+                            //   return;
+                            // }
                             // if (passwordController.text.length < 8) {
                             //   showSnackBar('Please must be at least 8 characters');
                             //   return;
                             // }
                             //
-                            // login();
+                            // registerUser();
 
                           },
                         ),
-
                       ],
                     )
                 ),
                 FlatButton(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(context, RegistrationPage.id, (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (route) => false);
                     },
-                    child: Text('Don\'t have an account, sign up here.'))
+                    child: Text('Already have a RIDER account? Log in'))
               ],
             ),
           ),
@@ -172,5 +222,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-
