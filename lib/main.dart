@@ -2,8 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:uber/screens/loginpage.dart';
 import 'package:uber/screens/mainpage.dart';
+import 'package:uber/screens/registrationpage.dart';
 
 import 'dart:io';
+
+import 'package:uber/screens/registrationpage.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final FirebaseApp app = await Firebase.initializeApp(
@@ -46,7 +49,12 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Brand-Regular',
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      initialRoute: RegistrationPage.id,
+      routes: {
+        RegistrationPage.id: (context) => RegistrationPage(),
+        LoginPage.id: (context) => LoginPage(),
+        MainPage.id: (context) => MainPage(),
+      },
     );
   }
 }
