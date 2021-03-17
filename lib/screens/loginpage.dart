@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       builder: (BuildContext context) => ProgressDialog(status: 'Logging you in',),
     );
 
-    final UserCredential user = await _auth.signInWithEmailAndPassword(
+    final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
     ).catchError((ex){
@@ -50,18 +50,18 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context);
       PlatformException thisEx = ex;
       showSnackBar(thisEx.message);
-    });
+    }));
 
-    // if(user != null) {
-    //   // Verify login
-    //   // DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users/${user.uid}');
-    //   userRef.once().then((DataSnapshot snapshot) {
-    //     if (snapshot.value != null){
-    //       Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
-    //       }
-    //   });
-    //
-    // }
+    if(user != null) {
+      // Verify login
+      DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users/${user.uid}');
+      userRef.once().then((DataSnapshot snapshot) {
+        if (snapshot.value != null){
+          Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
+          }
+      });
+
+    }
   }
 
   @override
@@ -135,23 +135,23 @@ class _LoginPageState extends State<LoginPage> {
                           color: BrandColors.colorGreen,
                           onPressed: () async {
                             // Check network awavillability
-                            // var connectivityResult = await Connectivity().checkConnectivity();
-                            // if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
-                            //   showSnackBar('No internet connectivity');
-                            //   return;
-                            // }
-                            //
-                            // if (!emailController.text.contains('@')) {
-                            //   showSnackBar('Please enter a valid email address');
-                            //   return;
-                            // }
-                            //
-                            // if (passwordController.text.length < 8) {
-                            //   showSnackBar('Please must be at least 8 characters');
-                            //   return;
-                            // }
-                            //
-                            // login();
+                            var connectivityResult = await Connectivity().checkConnectivity();
+                            if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
+                              showSnackBar('No internet connectivity');
+                              return;
+                            }
+
+                            if (!emailController.text.contains('@')) {
+                              showSnackBar('Please enter a valid email address');
+                              return;
+                            }
+
+                            if (passwordController.text.length < 8) {
+                              showSnackBar('Please must be at least 8 characters');
+                              return;
+                            }
+
+                            login();
 
                           },
                         ),
