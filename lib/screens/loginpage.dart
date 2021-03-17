@@ -1,4 +1,4 @@
-//import 'package:connectivity/connectivity.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       builder: (BuildContext context) => ProgressDialog(status: 'Logging you in',),
     );
 
-    final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
+    final User user = (await _auth.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
     ).catchError((ex){
@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context);
       PlatformException thisEx = ex;
       showSnackBar(thisEx.message);
-    }));
+    })).user;
 
     if(user != null) {
       // Verify login
