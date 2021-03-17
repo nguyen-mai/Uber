@@ -44,7 +44,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       builder: (BuildContext context) => ProgressDialog(status: 'Registering you...',),
     );
 
-    final UserCredential user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    final FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
     ).catchError((ex){
@@ -52,12 +52,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
       Navigator.pop(context);
       PlatformException thisEx = ex;
       showSnackBar(thisEx.message);
-    });
+    }));
 
     Navigator.pop(context);
     // Check if user registration successful
-    // if (user != null) {
-    //   DatabaseReference newUserRef = FirebaseDatabase.instance.reference().child('users/${user.uid}');
+    if (user != null) {
+      DatabaseReference newUserRef = FirebaseDatabase.instance.reference().child('users/${user.uid}');
 
       // Prepare data to be saved on users table
       Map userMap = {
@@ -178,31 +178,31 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           title: 'REGISTER',
                           color: BrandColors.colorGreen,
                           onPressed: () async{
-                            // // Check network awavillability
-                            // var connectivityResult = await Connectivity().checkConnectivity();
-                            // if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
-                            //   showSnackBar('No internet connectivity');
-                            //   return;
-                            // }
-                            //
-                            // if (fullNameController.text.length < 3) {
-                            //   showSnackBar('Please provide a valid fullname');
-                            //   return ;
-                            // }
-                            // if (phoneController.text.length < 10) {
-                            //   showSnackBar('Please provide a valid phone number');
-                            //   return;
-                            // }
-                            // if (!emailController.text.contains('@')) {
-                            //   showSnackBar('Please provide a valid email address');
-                            //   return;
-                            // }
-                            // if (passwordController.text.length < 8) {
-                            //   showSnackBar('Please must be at least 8 characters');
-                            //   return;
-                            // }
-                            //
-                            // registerUser();
+                            // Check network awavillability
+                            var connectivityResult = await Connectivity().checkConnectivity();
+                            if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
+                              showSnackBar('No internet connectivity');
+                              return;
+                            }
+
+                            if (fullNameController.text.length < 3) {
+                              showSnackBar('Please provide a valid fullname');
+                              return ;
+                            }
+                            if (phoneController.text.length < 10) {
+                              showSnackBar('Please provide a valid phone number');
+                              return;
+                            }
+                            if (!emailController.text.contains('@')) {
+                              showSnackBar('Please provide a valid email address');
+                              return;
+                            }
+                            if (passwordController.text.length < 8) {
+                              showSnackBar('Please must be at least 8 characters');
+                              return;
+                            }
+
+                            registerUser();
 
                           },
                         ),
