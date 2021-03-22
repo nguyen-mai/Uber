@@ -1,66 +1,51 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uber/brand_colors.dart';
+import 'package:uber/main.dart';
 import 'package:uber/screens/mainpage.dart';
 import 'package:uber/screens/registrationpage.dart';
-import 'package:uber/widgets/ProgressDialog.dart';
 import 'package:uber/widgets/TaxiButton.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginPage extends StatefulWidget {
+
+class LoginPage extends StatelessWidget {
 
   static const String id = 'login';
 
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
+  TextEditingController emailEditingController = TextEditingController();
+  TextEditingController passwordEditingController = TextEditingController();
 
-class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  void showSnackBar(String title){
-    final snackbar = SnackBar(
-      content: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 15),),
-    );
-    scaffoldKey.currentState.showSnackBar(snackbar);
-  }
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  var emailController = TextEditingController();
-
-  var passwordController = TextEditingController();
-
-  void login() async {
-    // Show please wait dialog
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) => ProgressDialog(status: 'Logging you in',),
-    );
-
-    final User user = (await _auth.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
-    ).catchError((ex){
-
-      // Check error and display message
-      Navigator.pop(context);
-      PlatformException thisEx = ex;
-      showSnackBar(thisEx.message);
+  void loginUser(BuildContext context) async {
+    final User firebaseUser = (await _firebaseAuth
+        .signInWithEmailAndPassword(
+        email: emailEditingController.text,
+        password: passwordEditingController.text)
+        .catchError((errorMsg) {
+      displayToastMessage("Error: " + errorMsg.toString(), context);
     })).user;
 
-    if(user != null) {
-      // Verify login
-      DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users/${user.uid}');
-      userRef.once().then((DataSnapshot snapshot) {
-        if (snapshot.value != null){
-          Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
-          }
+    if (firebaseUser != null) // user created
+        {
+      usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
+        if (snap.value != null) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, MainPage.id, (route) => false);
+          displayToastMessage("You are logged-in now", context);
+        }
+        else {
+          _firebaseAuth.signOut();
+          displayToastMessage(
+              "No record exists for this user. Please create new account",
+              context);
+        }
       });
-
+    }
+    else {
+      displayToastMessage("Error occured, can not be signed", context);
     }
   }
 
@@ -97,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: <Widget>[
                         TextField(
-                          // controller: emailController,
+                          controller: emailEditingController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                               labelText: 'Email address',
@@ -114,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
 
                         TextField(
-                          // controller: passwordController,
+                          controller: passwordEditingController,
                           obscureText: true,
                           decoration: InputDecoration(
                               labelText: 'Password',
@@ -133,35 +118,25 @@ class _LoginPageState extends State<LoginPage> {
                         TaxiButton(
                           title: 'LOGIN',
                           color: BrandColors.colorGreen,
-                          onPressed: () async {
-                            // Check network awavillability
-                            var connectivityResult = await Connectivity().checkConnectivity();
-                            if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
-                              showSnackBar('No internet connectivity');
-                              return;
+                          onPressed: () {
+                            if (!emailEditingController.text.contains("@")) {
+                              displayToastMessage(
+                                  "Email address is not valid", context);
+                            } else if (passwordEditingController.text.isEmpty) {
+                              displayToastMessage(
+                                  "Password is mandoatory", context);
+                            } else {
+                              loginUser(context);
                             }
-
-                            if (!emailController.text.contains('@')) {
-                              showSnackBar('Please enter a valid email address');
-                              return;
-                            }
-
-                            if (passwordController.text.length < 8) {
-                              showSnackBar('Please must be at least 8 characters');
-                              return;
-                            }
-
-                            login();
-
                           },
                         ),
-
                       ],
                     )
                 ),
                 FlatButton(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(context, RegistrationPage.id, (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RegistrationPage.id, (route) => false);
                     },
                     child: Text('Don\'t have an account, sign up here.'))
               ],
@@ -173,4 +148,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-
+displayToastMessage(String message, BuildContext context) {
+  Fluttertoast.showToast(msg: message);
+}

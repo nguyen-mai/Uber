@@ -3,235 +3,196 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:uber/brand_colors.dart';
+import 'package:uber/main.dart';
 import 'package:uber/screens/loginpage.dart';
 import 'package:uber/screens/mainpage.dart';
 import 'package:uber/widgets/ProgressDialog.dart';
 import 'package:uber/widgets/TaxiButton.dart';
 
-class RegistrationPage extends StatefulWidget {
-
+class RegistrationPage extends StatelessWidget {
   static const String id = 'register';
 
-  @override
-  _RegistrationPageState createState() => _RegistrationPageState();
-}
+  TextEditingController nameEditingController = TextEditingController();
+  TextEditingController emailEditingController = TextEditingController();
+  TextEditingController phoneEditingController = TextEditingController();
+  TextEditingController passwordEditingController = TextEditingController();
 
-class _RegistrationPageState extends State<RegistrationPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  void showSnackBar(String title) {
-    final snackbar = SnackBar(
-      content: Text(
-        title, textAlign: TextAlign.center, style: TextStyle(fontSize: 15),),
-    );
-    scaffoldKey.currentState.showSnackBar(snackbar);
+  void registerUser(BuildContext context) async {
+    final User firebaseUser = (await _firebaseAuth
+            .createUserWithEmailAndPassword(
+                email: emailEditingController.text,
+                password: passwordEditingController.text)
+            .catchError((errorMsg) {
+      displayToastMessage("Error: " + errorMsg.toString(), context);
+    }))
+        .user;
+
+    if (firebaseUser != null) // user created
+    {
+      // save user info to db
+
+      Map userDataMap = {
+        "name": nameEditingController.text.trim(),
+        "email": emailEditingController.text.trim(),
+        "phone": phoneEditingController.text.trim(),
+      };
+
+      usersRef.child(firebaseUser.uid).set(userDataMap);
+      displayToastMessage(
+          "Congratulations, your account has been created", context);
+
+      Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
+    } else {
+      // error occured - display error msg
+      displayToastMessage("User account has not been created", context);
+    }
   }
 
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 70,
+                ),
+                Image(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  width: 100.0,
+                  image: AssetImage('images/logo.png'),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  'Create  Rider\'s Account',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 25, fontFamily: 'Brand-Bold'),
+                ),
+                Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      children: <Widget>[
+                        // Full name
+                        TextField(
+                          controller: nameEditingController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              labelText: 'Full name',
+                              labelStyle: TextStyle(
+                                fontSize: 14.0,
+                              ),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey, fontSize: 10.0)),
+                          style: TextStyle(fontSize: 14),
+                        ),
 
-    var fullNameController = TextEditingController();
+                        SizedBox(
+                          height: 10,
+                        ),
 
-    var phoneController = TextEditingController();
+                        // Email address
+                        TextField(
+                          controller: emailEditingController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              labelText: 'Email address',
+                              labelStyle: TextStyle(
+                                fontSize: 14.0,
+                              ),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey, fontSize: 10.0)),
+                          style: TextStyle(fontSize: 14),
+                        ),
 
-    var emailController = TextEditingController();
+                        SizedBox(
+                          height: 10,
+                        ),
 
-    var passwordController = TextEditingController();
+                        // Phone
+                        TextField(
+                          controller: phoneEditingController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                              labelText: 'Phone number',
+                              labelStyle: TextStyle(
+                                fontSize: 14.0,
+                              ),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey, fontSize: 10.0)),
+                          style: TextStyle(fontSize: 14),
+                        ),
 
-    void registerUser() async {
-      // Show please wait dialog
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) =>
-            ProgressDialog(status: 'Registering you...',),
-      );
+                        SizedBox(
+                          height: 10,
+                        ),
 
-      final User user = (await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      ).catchError((ex) {
-        // Check error and display message
-        Navigator.pop(context);
-        PlatformException thisEx = ex;
-        showSnackBar(thisEx.message);
-      })).user;
+                        // Password
+                        TextField(
+                          controller: passwordEditingController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              labelText: 'Password',
+                              labelStyle: TextStyle(
+                                fontSize: 14.0,
+                              ),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey, fontSize: 10.0)),
+                          style: TextStyle(fontSize: 14),
+                        ),
 
-      Navigator.pop(context);
-      // Check if user registration successful
-      if (user != null) {
-        DatabaseReference newUserRef = FirebaseDatabase.instance.reference()
-            .child('users/${user.uid}');
+                        SizedBox(
+                          height: 40,
+                        ),
 
-        // Prepare data to be saved on users table
-        Map userMap = {
-          'fullname': fullNameController.text,
-          'email': emailController.text,
-          'phone': phoneController.text,
-        };
-
-        // newUserRef.set(userMap);
-
-        // Take the user to mainpage
-        Navigator.pushNamedAndRemoveUntil(
-            context, MainPage.id, (route) => false);
-      }
-    }
-
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 70,
-                  ),
-                  Image(
-                    alignment: Alignment.center,
-                    height: 100.0,
-                    width: 100.0,
-                    image: AssetImage('images/logo.png'),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Text(
-                    'Create  Rider\'s Account',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 25, fontFamily: 'Brand-Bold'),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Column(
-                        children: <Widget>[
-                          // Full name
-                          TextField(
-                            // controller: fullNameController,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                labelText: 'Full name',
-                                labelStyle: TextStyle(
-                                  fontSize: 14.0,
-                                ),
-                                hintStyle: TextStyle(
-                                    color: Colors.grey, fontSize: 10.0)),
-                            style: TextStyle(fontSize: 14),
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          // Email address
-                          TextField(
-                            // controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                labelText: 'Email address',
-                                labelStyle: TextStyle(
-                                  fontSize: 14.0,
-                                ),
-                                hintStyle: TextStyle(
-                                    color: Colors.grey, fontSize: 10.0)),
-                            style: TextStyle(fontSize: 14),
-                          ),
-
-                          SizedBox(
-                            height: 10,
-                          ),
-
-                          // Phone
-                          TextField(
-                            // controller: phoneController,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                                labelText: 'Phone number',
-                                labelStyle: TextStyle(
-                                  fontSize: 14.0,
-                                ),
-                                hintStyle: TextStyle(
-                                    color: Colors.grey, fontSize: 10.0)),
-                            style: TextStyle(fontSize: 14),
-                          ),
-
-                          SizedBox(
-                            height: 10,
-                          ),
-
-                          // Password
-                          TextField(
-                            // controller: passwordController,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                                labelText: 'Password',
-                                labelStyle: TextStyle(
-                                  fontSize: 14.0,
-                                ),
-                                hintStyle: TextStyle(
-                                    color: Colors.grey, fontSize: 10.0)),
-                            style: TextStyle(fontSize: 14),
-                          ),
-
-                          SizedBox(
-                            height: 40,
-                          ),
-
-                          TaxiButton(
-                            title: 'REGISTER',
-                            color: BrandColors.colorGreen,
-                            onPressed: () async {
-                              // Check network awavillability
-                              var connectivityResult = await Connectivity()
-                                  .checkConnectivity();
-                              if (connectivityResult !=
-                                  ConnectivityResult.mobile &&
-                                  connectivityResult !=
-                                      ConnectivityResult.wifi) {
-                                showSnackBar('No internet connectivity');
-                                return;
-                              }
-
-                              if (fullNameController.text.length < 3) {
-                                showSnackBar('Please provide a valid fullname');
-                                return;
-                              }
-                              if (phoneController.text.length < 10) {
-                                showSnackBar(
-                                    'Please provide a valid phone number');
-                                return;
-                              }
-                              if (!emailController.text.contains('@')) {
-                                showSnackBar(
-                                    'Please provide a valid email address');
-                                return;
-                              }
-                              if (passwordController.text.length < 8) {
-                                showSnackBar(
-                                    'Please must be at least 8 characters');
-                                return;
-                              }
-
-                              registerUser();
-                            },
-                          ),
-                        ],
-                      )
-                  ),
-                  FlatButton(
-                      onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, LoginPage.id, (route) => false);
-                      },
-                      child: Text('Already have a RIDER account? Log in'))
-                ],
-              ),
+                        TaxiButton(
+                          title: 'REGISTER',
+                          color: BrandColors.colorGreen,
+                          onPressed: () {
+                            if (nameEditingController.text.length < 1) {
+                              displayToastMessage(
+                                  "ame must be at least 1 character", context);
+                            } else if (!emailEditingController.text.contains("@")) {
+                              displayToastMessage(
+                                  "Email address is not valid", context);
+                            } else if (phoneEditingController.text.isEmpty) {
+                              displayToastMessage(
+                                  "Phone number is mandatiry", context);
+                            } else if (passwordEditingController.text.length < 8) {
+                              displayToastMessage(
+                                  "Password must be at least 8 character", context);
+                            } else {
+                              registerUser(context);
+                            }
+                          },
+                        ),
+                      ],
+                    )),
+                FlatButton(
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, LoginPage.id, (route) => false);
+                    },
+                    child: Text('Already have a RIDER account? Log in'))
+              ],
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
   }
+}
+
+displayToastMessage(String message, BuildContext context) {
+  Fluttertoast.showToast(msg: message);
+}
