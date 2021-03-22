@@ -82,13 +82,13 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.center,
                   height: 100.0,
                   width: 100.0,
-                  image: AssetImage('images/logo.png'),
+                  image: AssetImage('images/logo_2.png'),
                 ),
                 SizedBox(
                   height: 40,
                 ),
                 Text(
-                  'Sign In as a Rider',
+                  'Sign In',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 25, fontFamily: 'Brand-Bold'),
                 ),

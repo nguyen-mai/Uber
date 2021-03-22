@@ -102,7 +102,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     height: 40,
                   ),
                   Text(
-                    'Create  Rider\'s Account',
+                    'Create An Account',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 25, fontFamily: 'Brand-Bold'),
                   ),
@@ -226,7 +226,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         Navigator.pushNamedAndRemoveUntil(
                             context, LoginPage.id, (route) => false);
                       },
-                      child: Text('Already have a RIDER account? Log in'))
+                      child: Text('Already an user ? Log in'))
                 ],
               ),
             ),
