@@ -45,7 +45,7 @@ class RegistrationPage extends StatelessWidget {
       displayToastMessage(
           "Congratulations, your account has been created", context);
 
-      Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (route) => false);
     } else {
       // error occured - display error msg
       displayToastMessage("User account has not been created", context);
@@ -75,7 +75,7 @@ class RegistrationPage extends StatelessWidget {
                   height: 40,
                 ),
                 Text(
-                  'Create  Rider\'s Account',
+                  'Create New Account',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 25, fontFamily: 'Brand-Bold'),
                 ),
@@ -161,7 +161,7 @@ class RegistrationPage extends StatelessWidget {
                           onPressed: () {
                             if (nameEditingController.text.length < 1) {
                               displayToastMessage(
-                                  "ame must be at least 1 character", context);
+                                  "Name must be at least 1 character", context);
                             } else if (!emailEditingController.text.contains("@")) {
                               displayToastMessage(
                                   "Email address is not valid", context);
@@ -183,7 +183,7 @@ class RegistrationPage extends StatelessWidget {
                       Navigator.pushNamedAndRemoveUntil(
                           context, LoginPage.id, (route) => false);
                     },
-                    child: Text('Already have a RIDER account? Log in'))
+                    child: Text('Already have account? Log in'))
               ],
             ),
           ),

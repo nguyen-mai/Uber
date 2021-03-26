@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                   height: 40,
                 ),
                 Text(
-                  'Sign In as a Rider',
+                  'Sign In',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 25, fontFamily: 'Brand-Bold'),
                 ),
