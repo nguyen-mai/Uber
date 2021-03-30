@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:uber/Helper/helperMethods.dart';
 import 'package:uber/Style/style.dart';
 import 'package:uber/brand_colors.dart';
 import 'package:uber/widgets/BrandDivier.dart';
@@ -37,6 +38,8 @@ class _MainPageState extends State<MainPage> {
     LatLng pos= LatLng(position.latitude, position.longitude);
     CameraPosition cp=new CameraPosition(target: pos, zoom: 14);
     mapController.animateCamera(CameraUpdate.newCameraPosition(cp));
+    String andress = await HeplerMethod.findCordinateAndress(position);
+    print(andress);
   }
 
   @override
@@ -132,7 +135,7 @@ class _MainPageState extends State<MainPage> {
               myLocationEnabled: true,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: true,
-              padding: EdgeInsets.only(bottom: mapBottomPadding,top: 50),
+              padding: EdgeInsets.only(bottom: mapBottomPadding,top: 100),
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
               initialCameraPosition: _kGooglePlex,
