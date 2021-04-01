@@ -11,6 +11,7 @@ import 'package:uber/DataProvider/appdata.dart';
 import 'package:uber/Helper/helperMethods.dart';
 import 'package:uber/Style/style.dart';
 import 'package:uber/brand_colors.dart';
+import 'package:uber/screens/searchpage.dart';
 import 'package:uber/widgets/BrandDivier.dart';
 
 class MainPage extends StatefulWidget {
@@ -227,33 +228,40 @@ class _MainPageState extends State<MainPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 5.0,
-                                  spreadRadius: 0.5,
-                                  offset: Offset(
-                                    0.7,
-                                    0.7,
-                                  )),
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.all(12.0),
-                          child: Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.search,
-                                color: Colors.blueAccent,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text("Search Destination"),
-                            ],
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => SearchPage()
+                          ));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 5.0,
+                                    spreadRadius: 0.5,
+                                    offset: Offset(
+                                      0.7,
+                                      0.7,
+                                    )),
+                              ]),
+                          child: Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.search,
+                                  color: Colors.blueAccent,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Search Destination"),
+                              ],
+                            ),
                           ),
                         ),
                       ),
