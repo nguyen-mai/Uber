@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:uber/DataProvider/appdata.dart';
 import 'package:uber/Helper/helperMethods.dart';
 import 'package:uber/Style/style.dart';
 import 'package:uber/brand_colors.dart';
@@ -32,13 +34,14 @@ class _MainPageState extends State<MainPage> {
   Position currentPosition;
 
   void setupPositionLocator() async {
-    Position position = await geoLocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
-    currentPosition= position;
+    Position position = await geoLocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+    currentPosition = position;
 
-    LatLng pos= LatLng(position.latitude, position.longitude);
-    CameraPosition cp=new CameraPosition(target: pos, zoom: 14);
+    LatLng pos = LatLng(position.latitude, position.longitude);
+    CameraPosition cp = new CameraPosition(target: pos, zoom: 14);
     mapController.animateCamera(CameraUpdate.newCameraPosition(cp));
-    String andress= await HeplerMethod.findCordinateAndress(position);
+    String andress = await HeplerMethod.findCordinateAndress(position, context);
 
     print(andress);
   }
@@ -136,7 +139,7 @@ class _MainPageState extends State<MainPage> {
               myLocationEnabled: true,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: true,
-              padding: EdgeInsets.only(bottom: mapBottomPadding,top: 100),
+              padding: EdgeInsets.only(bottom: mapBottomPadding, top: 100),
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
               initialCameraPosition: _kGooglePlex,
@@ -268,22 +271,29 @@ class _MainPageState extends State<MainPage> {
                             height: 12,
                             width: 14,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Home",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Text("Your home address",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: BrandColors.colorDimText,
-                                  )),
-                            ],
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  (Provider.of<Appdata>(context).pickupAndress !=
+                                          null)
+                                      ? Provider.of<Appdata>(context)
+                                          .pickupAndress
+                                          .placeName
+                                      : "And home",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text("Your home address",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: BrandColors.colorDimText,
+                                    )),
+                              ],
+                            ),
                           )
                         ],
                       ),
@@ -310,7 +320,7 @@ class _MainPageState extends State<MainPage> {
                             children: <Widget>[
                               Text(
                                 "Work",
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 15),
                               ),
                               SizedBox(
                                 height: 3,
