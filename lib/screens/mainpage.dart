@@ -140,7 +140,7 @@ class _MainPageState extends State<MainPage> {
               myLocationEnabled: true,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: true,
-              padding: EdgeInsets.only(bottom: mapBottomPadding, top: 100),
+              padding: EdgeInsets.only(bottom: mapBottomPadding, top: 150),
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
               initialCameraPosition: _kGooglePlex,
