@@ -11,11 +11,10 @@ class HeplerMethod {
         connectivityReslut != ConnectivityResult.wifi) {
       return placeAndress;
     }
-    var url =
-        Uri.parse("https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=${mapKey}");
+    var url= Uri.parse('https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=${mapKey}');
     var response = await RequestHelper.getRequest(url);
     if (response != "failed") {
-      placeAndress=response['results'][0]['formatted_andress'];
+      placeAndress=response['results'][0]['formatted_address'];
     }
     if(response=="failed"){
       return "Unknown";

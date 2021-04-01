@@ -38,7 +38,8 @@ class _MainPageState extends State<MainPage> {
     LatLng pos= LatLng(position.latitude, position.longitude);
     CameraPosition cp=new CameraPosition(target: pos, zoom: 14);
     mapController.animateCamera(CameraUpdate.newCameraPosition(cp));
-    String andress = await HeplerMethod.findCordinateAndress(position);
+    String andress= await HeplerMethod.findCordinateAndress(position);
+
     print(andress);
   }
 
