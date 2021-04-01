@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:uber/DataProvider/appdata.dart';
+import 'package:uber/Helper/RequestHelper.dart';
 import 'package:uber/brand_colors.dart';
+import 'package:uber/datamodels/prediction.dart';
+import 'package:uber/globevariable.dart';
+import 'package:uber/widgets/BrandDivier.dart';
+import 'package:uber/widgets/PredictionTile.dart';
 
 class SearchPage extends StatefulWidget {
   static const String id = 'searchpage';
@@ -23,6 +29,31 @@ class _SearchPageState extends State<SearchPage> {
       FocusScope.of(context).requestFocus(focusDestination);
       focused = true;
     }
+  }
+
+  List<Prediction> destinationPredictionList = [];
+
+  void searchPlace(String placeName) async {
+    if (placeName.length > 1){
+      String url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=$mapKey&sessiontoken=1234567890&components=country:vn';
+      var respond = await RequestHelper.getRequest(url);
+
+      if (respond == 'failed'){
+        return;
+      }
+
+      if (respond['status'] == 'OK'){
+        var predictionJson= respond['predictions'];
+        var thisList = (predictionJson as List).map((e) => Prediction.fromJson(e)).toList();
+
+        setState(() {
+          destinationPredictionList = thisList;
+        });
+
+      }
+
+    }
+
   }
 
 
@@ -116,6 +147,9 @@ class _SearchPageState extends State<SearchPage> {
                           child: Padding(
                             padding: EdgeInsets.all(2.0),
                             child: TextField(
+                              onChanged: (value){
+                                searchPlace(value);
+                              },
                               focusNode: focusDestination,
                               controller: destinationController,
                               decoration: InputDecoration(
@@ -135,9 +169,29 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ),
             ),
+          ),
+
+          (destinationPredictionList.length > 0) ?
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: ListView.separated(
+              padding: EdgeInsets.all(0),
+                itemBuilder: (context, index){
+                  return PredictionTile(
+                    prediction: destinationPredictionList[index],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) => BrandDivider(),
+                itemCount: destinationPredictionList.length,
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+            ),
           )
+              : Container(),
         ],
       ),
     );
   }
 }
+
+
