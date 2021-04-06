@@ -1,14 +1,14 @@
-class Andress {
+class Address {
   String placeName;
   double latitude;
   double longitude;
   String placeId;
-  String placeFormattedAndress;
+  String placeFormattedAddress;
 
-  Andress({
+  Address({
     this.placeId,
     this.latitude,
     this.placeName,
-    this.placeFormattedAndress,
+    this.placeFormattedAddress,
   });
 }

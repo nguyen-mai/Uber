@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -13,6 +15,8 @@ import 'package:uber/Style/style.dart';
 import 'package:uber/brand_colors.dart';
 import 'package:uber/screens/searchpage.dart';
 import 'package:uber/widgets/BrandDivier.dart';
+import 'package:uber/widgets/ProgressDialog.dart';
+import 'package:uber/widgets/TaxiButton.dart';
 
 class MainPage extends StatefulWidget {
   static const String id = 'mainpage';
@@ -31,6 +35,13 @@ class _MainPageState extends State<MainPage> {
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
+  List<LatLng> polyLineCoordinates = [];
+  Set<Polyline> _polylines = {};
+  Set<Marker> _Markers = {};
+  Set<Circle> _Circles = {};
+
+
+
   var geoLocator = Geolocator();
   Position currentPosition;
 
@@ -42,7 +53,7 @@ class _MainPageState extends State<MainPage> {
     LatLng pos = LatLng(position.latitude, position.longitude);
     CameraPosition cp = new CameraPosition(target: pos, zoom: 14);
     mapController.animateCamera(CameraUpdate.newCameraPosition(cp));
-    String andress = await HeplerMethod.findCordinateAndress(position, context);
+    String andress = await HelperMethod.findCordinateAndress(position, context);
 
     print(andress);
   }
@@ -143,6 +154,9 @@ class _MainPageState extends State<MainPage> {
               padding: EdgeInsets.only(bottom: mapBottomPadding, top: 150),
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
+              polylines: _polylines,
+              markers: _Markers,
+              circles: _Circles,
               initialCameraPosition: _kGooglePlex,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
@@ -229,10 +243,14 @@ class _MainPageState extends State<MainPage> {
                         height: 20,
                       ),
                       GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(
+                        onTap: () async {
+                          var response = await Navigator.push(context, MaterialPageRoute(
                               builder: (context) => SearchPage()
                           ));
+
+                          if (response == 'getDirection'){
+                            await getDirection();
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -284,10 +302,10 @@ class _MainPageState extends State<MainPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  (Provider.of<Appdata>(context).pickupAndress !=
+                                  (Provider.of<Appdata>(context).pickupAddress !=
                                           null)
                                       ? Provider.of<Appdata>(context)
-                                          .pickupAndress
+                                          .pickupAddress
                                           .placeName
                                       : "And home",
                                   style: TextStyle(fontSize: 15),
@@ -347,7 +365,198 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
             ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 15.0, // soften the shadow
+                      spreadRadius: 0.5, // extend the shadow
+                      offset: Offset(
+                        0.7, //move to right 10 horizontally
+                        0.7, // move to bottom 10 vertically
+                      )
+                    )
+                  ],
+                ),
+                height: 260,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 18),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        color: BrandColors.colorAccent1,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            children: <Widget>[
+                              Image.asset('images/taxi.png', height: 70, width: 70,),
+                              SizedBox(width: 16,),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text('Taxi', style: TextStyle(fontSize: 18, fontFamily: 'Brand-Bold'),),
+                                  Text('14km', style: TextStyle(fontSize: 16, color: BrandColors.colorTextLight),)
+                                ],
+                              ),
+                              Expanded(child: Container()),
+                              Text('\$13', style: TextStyle(fontSize: 18, fontFamily: 'Brand-Bold'),),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 22,),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(FontAwesomeIcons.moneyBillAlt, size: 18, color: BrandColors.colorTextLight,),
+                            SizedBox(width: 16),
+                            Text('Cash'),
+                            SizedBox(width: 5,),
+                            Icon(Icons.keyboard_arrow_down, color: BrandColors.colorTextLight, size: 16,),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 22,),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: TaxiButton(
+                          title: 'REQUEST CAR',
+                          color: BrandColors.colorGreen,
+                          onPressed: (){
+
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
           ],
         ));
+  }
+
+  Future<void> getDirection() async {
+    var pickup = Provider.of<Appdata>(context, listen: false).pickupAddress;
+    var destination = Provider.of<Appdata>(context, listen: false).destinationAddress;
+
+    var pickLatLng = LatLng(pickup.latitude, pickup.longitude);
+    var destinationLatLng = LatLng(destination.latitude, destination.longitude);
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => ProgressDialog(status: "Please wait...",)
+    );
+
+    var thisDetails = await HelperMethod.getDirectionDetails(pickLatLng, destinationLatLng);
+
+    Navigator.pop(context);
+
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> results = polylinePoints.decodePolyline(thisDetails.encodedPoints);
+
+    polyLineCoordinates.clear();
+
+    if(results.isNotEmpty){
+      results.forEach((PointLatLng points) {
+        polyLineCoordinates.add(LatLng(points.latitude, points.longitude));
+      });
+    }
+
+    _polylines.clear();
+
+    setState(() {
+      Polyline polyLine = Polyline(
+        polylineId: PolylineId('polyid'),
+        color: Color.fromARGB(255, 95, 109, 237),
+        points: polyLineCoordinates,
+        jointType: JointType.round,
+        width: 4,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        geodesic: true,
+      );
+
+      _polylines.add(polyLine);
+    });
+
+    LatLngBounds bounds;
+
+    if(pickLatLng.latitude > destinationLatLng.latitude && pickLatLng.longitude > destinationLatLng.longitude){
+      bounds = LatLngBounds(southwest: destinationLatLng, northeast: pickLatLng);
+    }
+    else if(pickLatLng.longitude > destinationLatLng.longitude){
+      bounds = LatLngBounds(
+          southwest: LatLng(pickLatLng.latitude, destinationLatLng.longitude),
+          northeast: LatLng(destinationLatLng.latitude, pickLatLng.longitude));
+    }
+    else if(pickLatLng.latitude > destinationLatLng.latitude) {
+      bounds = LatLngBounds(
+          southwest: LatLng(destinationLatLng.latitude, pickLatLng.longitude),
+          northeast: LatLng(pickLatLng.latitude, destinationLatLng.longitude));
+    }
+    else {
+      bounds = LatLngBounds(southwest: pickLatLng, northeast: destinationLatLng);
+    }
+    
+    mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 70));
+    
+    Marker pickupMarker = Marker(
+      markerId: MarkerId('pickup'),
+      position: pickLatLng,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      infoWindow: InfoWindow(title: pickup.placeName, snippet: 'My Location'),
+    );
+
+    Marker destinationMarker = Marker(
+      markerId: MarkerId('destination'),
+      position: destinationLatLng,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      infoWindow: InfoWindow(title: destination.placeName, snippet: 'Destination'),
+    );
+
+    setState(() {
+      _Markers.add(pickupMarker);
+      _Markers.add(destinationMarker);
+    });
+    
+    Circle pickupCircle = Circle(
+      circleId: CircleId('pickup'),
+      strokeColor: Colors.green,
+      strokeWidth: 3,
+      radius: 12,
+      center: pickLatLng,
+      fillColor: BrandColors.colorGreen,
+    );
+
+    Circle destinationCircle = Circle(
+      circleId: CircleId('destination'),
+      strokeColor: BrandColors.colorAccentPurple,
+      strokeWidth: 3,
+      radius: 12,
+      center: destinationLatLng,
+      fillColor: BrandColors.colorAccentPurple,
+    );
+
+    setState(() {
+      _Circles.add(pickupCircle);
+      _Circles.add(destinationCircle);
+    });
+
+
   }
 }
