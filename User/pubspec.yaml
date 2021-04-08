@@ -44,7 +44,9 @@ dependencies:
   fluttericon: ^2.0.0
   intl: ">=0.14.0"
 
+
 dev_dependencies:
+  flutter_launcher_icons: ^0.9.0
   flutter_test:
     sdk: flutter
 
@@ -52,6 +54,11 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -62,7 +69,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/
-  
   fonts:
     - family: Brand-Bold
       fonts:

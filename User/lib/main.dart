@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create:(context)=> Appdata(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Uber',
         theme: ThemeData(
           // This is the theme of your application.
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Brand-Regular',
           primarySwatch: Colors.blue,
         ),
-        initialRoute: MainPage.id,
+        initialRoute: LoginPage.id,
         routes: {
           RegistrationPage.id: (context) => RegistrationPage(),
           LoginPage.id: (context) => LoginPage(),
