@@ -13,10 +13,12 @@ import 'package:uber/DataProvider/appdata.dart';
 import 'package:uber/Helper/helperMethods.dart';
 import 'package:uber/Style/style.dart';
 import 'package:uber/brand_colors.dart';
+import 'package:uber/datamodels/directiondetails.dart';
 import 'package:uber/screens/searchpage.dart';
 import 'package:uber/widgets/BrandDivier.dart';
 import 'package:uber/widgets/ProgressDialog.dart';
 import 'package:uber/widgets/TaxiButton.dart';
+import 'package:intl/intl.dart';
 
 class MainPage extends StatefulWidget {
   static const String id = 'mainpage';
@@ -26,8 +28,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
-
-
   double rideDetailsSheetHeight = 0;
   GoogleMapController mapController;
   double searchSheetHeight = 300;
@@ -42,11 +42,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   Position currentPosition;
   var geoLocator = Geolocator();
 
+  final fommatter= new NumberFormat.currency(locale: 'vi_VN',symbol: 'VND');
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
+
+  DirectionDetails tripDirectionDetails;
+
   void setupPositionLocator() async {
     Position position = await geoLocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
@@ -59,12 +63,13 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     print(andress);
   }
-  void showDetailSheet() async{
+
+  void showDetailSheet() async {
     await getDirection();
     setState(() {
-      searchSheetHeight=0;
-      rideDetailsSheetHeight=250;
-      mapBottomPadding=10;
+      searchSheetHeight = 0;
+      rideDetailsSheetHeight = 250;
+      mapBottomPadding = 10;
     });
   }
 
@@ -264,11 +269,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                     builder: (context) => SearchPage()));
 
                             if (response == 'getDirection') {
-                               showDetailSheet();
+                              showDetailSheet();
                             }
                           },
                           child: Container(
-                             decoration: BoxDecoration(
+                            decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
@@ -439,7 +444,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                           fontFamily: 'Brand-Bold'),
                                     ),
                                     Text(
-                                      '14km',
+                                      (tripDirectionDetails != null)
+                                          ? tripDirectionDetails.distanceText
+                                          : '',
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: BrandColors.colorTextLight),
@@ -448,7 +455,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                 ),
                                 Expanded(child: Container()),
                                 Text(
-                                  '\$13',
+                                  (tripDirectionDetails != null)
+                                      ? fommatter.format(HelperMethod.estimateFares(tripDirectionDetails))
+                                      : '',
                                   style: TextStyle(
                                       fontSize: 18, fontFamily: 'Brand-Bold'),
                                 ),
@@ -519,6 +528,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     var thisDetails =
         await HelperMethod.getDirectionDetails(pickLatLng, destinationLatLng);
+    setState(() {
+      tripDirectionDetails = thisDetails;
+    });
 
     Navigator.pop(context);
 
