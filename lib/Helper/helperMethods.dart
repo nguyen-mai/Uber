@@ -38,7 +38,7 @@ class HelperMethod {
   }
 
   static Future<DirectionDetails> getDirectionDetails(LatLng startPosition, LatLng endPosition) async {
-    String url = 'https://maps.googleapis.com/maps/api/directions/json?origin=${startPosition.latitude},${startPosition.longitude}&destination=${endPosition.latitude},${endPosition.longitude}&mode=driving&key=$mapKey';
+    var url = Uri.parse('https://maps.googleapis.com/maps/api/directions/json?origin=${startPosition.latitude},${startPosition.longitude}&destination=${endPosition.latitude},${endPosition.longitude}&mode=driving&key=$mapKey');
 
     var response = await RequestHelper.getRequest(url);
 
