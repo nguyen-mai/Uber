@@ -69,6 +69,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       searchSheetHeight = 0;
       rideDetailsSheetHeight = 250;
       mapBottomPadding = 10;
+      drawerCarOpen=false;
     });
   }
 
@@ -187,7 +188,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               left: 20,
               child: GestureDetector(
                 onTap: () {
-                  scaffoldKey.currentState.openDrawer();
+                  if(drawerCarOpen){
+                    scaffoldKey.currentState.openDrawer();
+                  }else{
+                    resetApp();
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -207,8 +212,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                     backgroundColor: Colors.white,
                     radius: 20,
                     child: Icon(
-                      Icons.menu,
-                      color: Colors.black,
+                      drawerCarOpen?Icons.menu:Icons.arrow_back, color: Colors.black,
                     ),
                   ),
                 ),
@@ -625,5 +629,21 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       _Circles.add(pickupCircle);
       _Circles.add(destinationCircle);
     });
+  }
+  resetApp(){
+    setState(() {
+      polyLineCoordinates.clear();
+      _polylines.clear();
+      _Markers.clear();
+      _Circles.clear();
+      rideDetailsSheetHeight=0;
+      searchSheetHeight=300;
+      mapBottomPadding=10;
+      drawerCarOpen=true;
+
+    });
+
+
+    setupPositionLocator();
   }
 }
