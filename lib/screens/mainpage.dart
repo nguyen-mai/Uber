@@ -63,8 +63,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     await getDirection();
     setState(() {
       searchSheetHeight=0;
-      rideDetailsSheetHeight=260;
-      mapBottomPadding=240;
+      rideDetailsSheetHeight=250;
+      mapBottomPadding=10;
     });
   }
 
@@ -219,7 +219,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 duration: new Duration(milliseconds: 150),
                 curve: Curves.easeIn,
                 child: Container(
-                  height: 300,
+                  height: searchSheetHeight,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -551,7 +551,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       _polylines.add(polyLine);
     });
 
-    /*LatLngBounds bounds;
+    LatLngBounds bounds;
 
     if (pickLatLng.latitude > destinationLatLng.latitude &&
         pickLatLng.longitude > destinationLatLng.longitude) {
@@ -613,6 +613,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     setState(() {
       _Circles.add(pickupCircle);
       _Circles.add(destinationCircle);
-    });*/
+    });
   }
 }
