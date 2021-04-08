@@ -65,10 +65,10 @@ flutter:
   fonts:
     - family: Brand-Bold
       fonts:
-        - asset: fonts/bolt-semibold.ttf
+        - asset: fonts/SVN-Product Sans Bold.ttf
     - family: Brand-Regular
       fonts:
-        - asset: fonts/bolt-regular.ttf
+        - asset: fonts/SVN-Product Sans Regular.ttf
         
   #
   # For details regarding fonts from package dependencies,
