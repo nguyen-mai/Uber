@@ -67,9 +67,9 @@ class RegistrationPage extends StatelessWidget {
                 ),
                 Image(
                   alignment: Alignment.center,
-                  height: 100.0,
-                  width: 100.0,
-                  image: AssetImage('images/logo.png'),
+                  height: 200.0,
+                  width: 200.0,
+                  image: AssetImage('images/icon.png'),
                 ),
                 SizedBox(
                   height: 40,

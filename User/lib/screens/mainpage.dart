@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -20,6 +21,7 @@ import 'package:uber/widgets/BrandDivier.dart';
 import 'package:uber/widgets/ProgressDialog.dart';
 import 'package:uber/widgets/TaxiButton.dart';
 import 'package:intl/intl.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class MainPage extends StatefulWidget {
   static const String id = 'mainpage';
@@ -43,10 +45,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   Position currentPosition;
   var geoLocator = Geolocator();
 
-  bool drawerCarOpen=true;
-  final fommatter= new NumberFormat.currency(locale: 'vi_VN',symbol: 'VND');
-
-
+  bool drawerCarOpen = true;
+  final fommatter = new NumberFormat.currency(locale: 'vi_VN', symbol: 'VND');
 
   DirectionDetails tripDirectionDetails;
 
@@ -69,7 +69,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       searchSheetHeight = 0;
       rideDetailsSheetHeight = 250;
       mapBottomPadding = 10;
-      drawerCarOpen=false;
+      drawerCarOpen = false;
     });
   }
 
@@ -188,9 +188,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               left: 20,
               child: GestureDetector(
                 onTap: () {
-                  if(drawerCarOpen){
+                  if (drawerCarOpen) {
                     scaffoldKey.currentState.openDrawer();
-                  }else{
+                  } else {
                     resetApp();
                   }
                 },
@@ -212,7 +212,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                     backgroundColor: Colors.white,
                     radius: 20,
                     child: Icon(
-                      drawerCarOpen?Icons.menu:Icons.arrow_back, color: Colors.black,
+                      drawerCarOpen ? Icons.menu : Icons.arrow_back,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -459,7 +460,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                 Expanded(child: Container()),
                                 Text(
                                   (tripDirectionDetails != null)
-                                      ? fommatter.format(HelperMethod.estimateFares(tripDirectionDetails))
+                                      ? fommatter.format(
+                                          HelperMethod.estimateFares(
+                                              tripDirectionDetails))
                                       : '',
                                   style: TextStyle(
                                       fontSize: 18, fontFamily: 'Brand-Bold'),
@@ -509,6 +512,64 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
+            ),
+            Positioned(
+              left: 0,
+              bottom: 0,
+              right: 0,
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 5.0,
+                            spreadRadius: 0.5,
+                            offset: Offset(
+                              0.7,
+                              0.7,
+                            ))
+                      ]),
+                  height: 250,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SpinKitRipple(
+                        color: Colors.greenAccent,
+                        size: 90,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'Requesting your trip....',
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        height: 52,
+                        width: 52,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(26),
+                          border: Border.all(width: 1.5,color:Colors.black38),
+                        ),
+                        child: Icon(Icons.close,size: 30,),
+                      ),
+                      SizedBox(height: 5,),
+                      Container(
+                        width: double.infinity,
+                        child: Text(
+                          "Cancel Trip",
+                          textAlign: TextAlign.center,
+                          style:TextStyle(fontSize: 14),
+                        ),
+                      )
+                    ],
+                  )),
             )
           ],
         ));
@@ -630,19 +691,18 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       _Circles.add(destinationCircle);
     });
   }
-  resetApp(){
+
+  resetApp() {
     setState(() {
       polyLineCoordinates.clear();
       _polylines.clear();
       _Markers.clear();
       _Circles.clear();
-      rideDetailsSheetHeight=0;
-      searchSheetHeight=300;
-      mapBottomPadding=10;
-      drawerCarOpen=true;
-
+      rideDetailsSheetHeight = 0;
+      searchSheetHeight = 300;
+      mapBottomPadding = 10;
+      drawerCarOpen = true;
     });
-
 
     setupPositionLocator();
   }
