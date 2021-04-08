@@ -14,6 +14,7 @@ import 'package:uber/Helper/helperMethods.dart';
 import 'package:uber/Style/style.dart';
 import 'package:uber/brand_colors.dart';
 import 'package:uber/datamodels/directiondetails.dart';
+import 'package:uber/globevariable.dart';
 import 'package:uber/screens/searchpage.dart';
 import 'package:uber/widgets/BrandDivier.dart';
 import 'package:uber/widgets/ProgressDialog.dart';
@@ -42,12 +43,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   Position currentPosition;
   var geoLocator = Geolocator();
 
+  bool drawerCarOpen=true;
   final fommatter= new NumberFormat.currency(locale: 'vi_VN',symbol: 'VND');
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
+
 
   DirectionDetails tripDirectionDetails;
 
@@ -172,7 +171,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               polylines: _polylines,
               markers: _Markers,
               circles: _Circles,
-              initialCameraPosition: _kGooglePlex,
+              initialCameraPosition: googleFlex,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
                 mapController = controller;
