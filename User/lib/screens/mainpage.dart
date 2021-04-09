@@ -35,6 +35,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   GoogleMapController mapController;
   double searchSheetHeight = 300;
   double mapBottomPadding = 0;
+  double requestingSheetHeight=0;
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
@@ -49,6 +50,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   final fommatter = new NumberFormat.currency(locale: 'vi_VN', symbol: 'VND');
 
   DirectionDetails tripDirectionDetails;
+  void showRequestingSheet(){
+    setState(() {
+      rideDetailsSheetHeight=0;
+      requestingSheetHeight=250;
+      drawerCarOpen=true;
+
+    });
+
+  }
 
   void setupPositionLocator() async {
     Position position = await geoLocator.getCurrentPosition(
@@ -504,7 +514,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                           child: TaxiButton(
                             title: 'REQUEST CAR',
                             color: BrandColors.colorGreen,
-                            onPressed: () {},
+                            onPressed: () {
+                              showRequestingSheet();
+
+                            },
                           ),
                         )
                       ],
@@ -531,7 +544,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                               0.7,
                             ))
                       ]),
-                  height: 250,
+                  height: requestingSheetHeight,
                   child: Column(
                     children: <Widget>[
                       SizedBox(
