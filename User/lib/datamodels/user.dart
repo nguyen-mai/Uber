@@ -10,8 +10,8 @@ class UserInfomation {
 
   UserInfomation.fromSnapshot(DataSnapshot snapshot){
     id=snapshot.key;
-    phone=snapshot.value['phone'];
+    phone=snapshot.value["phone"];
     email=snapshot.value['email'];
-    fullName=snapshot.value['fullname'];
+    fullName=snapshot.value['name'];
   }
 }

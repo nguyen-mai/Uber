@@ -14,14 +14,17 @@ import 'package:uber/main.dart';
 
 class HelperMethod {
   static void getCurrentUserInfo() async {
-    currentFirebaseUser = await FirebaseAuth.instance.currentUser;
+    currentFirebaseUser=await FirebaseAuth.instance.currentUser;
     String userId = currentFirebaseUser.uid;
 
-    DatabaseReference useRef= FirebaseDatabase.instance.reference().child('users/$userId');
+
+    DatabaseReference usersRef= FirebaseDatabase.instance.reference().child('users').child(userId);
     usersRef.once().then((DataSnapshot snapshot){
       if(snapshot.value!=null){
+        //print(snapshot.value);
         currentUserInfo= UserInfomation.fromSnapshot(snapshot);
-        print('My name is  ${currentUserInfo.fullName}');
+        print('My name is ${currentUserInfo.fullName}');
+        print(userId);
 
       }
     });

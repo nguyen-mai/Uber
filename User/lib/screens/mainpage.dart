@@ -82,7 +82,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       drawerCarOpen = false;
     });
   }
-
+  @override
+  void initState(){
+    super.initState();
+    HelperMethod.getCurrentUserInfo();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
