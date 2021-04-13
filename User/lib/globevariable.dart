@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uber/datamodels/user.dart';
 
@@ -9,3 +10,5 @@ final CameraPosition googleFlex = CameraPosition(
 );
 UserInfomation currentUserInfo;
 User currentFirebaseUser;
+String userName;
+//currentUserInfo= UserInfomation.fromSnapshot(snapshot);

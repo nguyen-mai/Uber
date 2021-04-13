@@ -133,7 +133,7 @@ class LoginPage extends StatelessWidget {
                       ],
                     )
                 ),
-                FlatButton(
+                TextButton(
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, RegistrationPage.id, (route) => false);

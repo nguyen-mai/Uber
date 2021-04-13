@@ -121,7 +121,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "User",
+                              '$userName',
                               style: TextStyle(
                                   fontSize: 20, fontFamily: "Brand-Bold"),
                             ),
@@ -278,7 +278,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                         Text(
                           "Where are you going",
                           style:
-                              TextStyle(fontSize: 20, fontFamily: "Brand-Bold"),
+                          TextStyle(fontSize: 20, fontFamily: "Brand-Bold"),
                         ),
                         SizedBox(
                           height: 20,
@@ -348,11 +348,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                 children: <Widget>[
                                   Text(
                                     (Provider.of<Appdata>(context)
-                                                .pickupAddress !=
-                                            null)
+                                        .pickupAddress !=
+                                        null)
                                         ? Provider.of<Appdata>(context)
-                                            .pickupAddress
-                                            .placeName
+                                        .pickupAddress
+                                        .placeName
                                         : "And home",
                                     style: TextStyle(fontSize: 16),
                                   ),
@@ -479,8 +479,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                 Text(
                                   (tripDirectionDetails != null)
                                       ? fommatter.format(
-                                          HelperMethod.estimateFares(
-                                              tripDirectionDetails))
+                                      HelperMethod.estimateFares(
+                                          tripDirectionDetails))
                                       : '',
                                   style: TextStyle(
                                       fontSize: 18, fontFamily: 'Brand-Bold'),
@@ -583,7 +583,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(26),
                             border:
-                                Border.all(width: 1.5, color: Colors.black38),
+                            Border.all(width: 1.5, color: Colors.black38),
                           ),
                           child: Icon(
                             Icons.close,
@@ -621,11 +621,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) => ProgressDialog(
-              status: "Please wait...",
-            ));
+          status: "Please wait...",
+        ));
 
     var thisDetails =
-        await HelperMethod.getDirectionDetails(pickLatLng, destinationLatLng);
+    await HelperMethod.getDirectionDetails(pickLatLng, destinationLatLng);
     setState(() {
       tripDirectionDetails = thisDetails;
     });
@@ -634,7 +634,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     PolylinePoints polylinePoints = PolylinePoints();
     List<PointLatLng> results =
-        polylinePoints.decodePolyline(thisDetails.encodedPoints);
+    polylinePoints.decodePolyline(thisDetails.encodedPoints);
 
     polyLineCoordinates.clear();
 
@@ -694,7 +694,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       position: destinationLatLng,
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       infoWindow:
-          InfoWindow(title: destination.placeName, snippet: 'Destination'),
+      InfoWindow(title: destination.placeName, snippet: 'Destination'),
     );
 
     setState(() {

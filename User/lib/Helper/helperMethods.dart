@@ -14,7 +14,7 @@ import 'package:uber/main.dart';
 
 class HelperMethod {
   static void getCurrentUserInfo() async {
-    currentFirebaseUser= await FirebaseAuth.instance.currentUser;
+    currentFirebaseUser=await FirebaseAuth.instance.currentUser;
     String userId = currentFirebaseUser.uid;
 
 
@@ -24,6 +24,8 @@ class HelperMethod {
         //print(snapshot.value);
         currentUserInfo= UserInfomation.fromSnapshot(snapshot);
         print('My name is ${currentUserInfo.fullName}');
+        userName=currentUserInfo.fullName;
+        print(userName);
         print(userId);
 
       }

@@ -14,4 +14,7 @@ class UserInfomation {
     email=snapshot.value['email'];
     fullName=snapshot.value['name'];
   }
+  String getName(){
+    return this.fullName;
+}
 }
