@@ -50,6 +50,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   final fommatter = new NumberFormat.currency(locale: 'vi_VN', symbol: 'VND');
 
   DirectionDetails tripDirectionDetails;
+
+  DatabaseReference rideRef;
   void showRequestingSheet(){
     setState(() {
       rideDetailsSheetHeight=0;
@@ -57,6 +59,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       drawerCarOpen=true;
 
     });
+    createRideRequest();
 
   }
 
@@ -707,6 +710,33 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       _Circles.add(pickupCircle);
       _Circles.add(destinationCircle);
     });
+  }
+  void createRideRequest(){
+    rideRef =FirebaseDatabase.instance.reference().child('rideRequest').push();
+
+    var pickup= Provider.of<Appdata>(context,listen: false).pickupAddress;
+    var destination=Provider.of<Appdata>(context,listen: false).destinationAddress;
+    Map pickupMap={
+      'latitude': destination.latitude.toString(),
+      'longitude':pickup.longitude.toString(),
+    };
+    Map destinationMap={
+      'latitude': destination.latitude.toString(),
+      'longitude':destination.longitude.toString(),
+
+    };
+    Map rideMap={
+      'created_at': DateTime.now().toString(),
+      'user_name': currentUserInfo.fullName,
+      'user_phone':currentUserInfo.phone,
+      'pickup_andress':pickup.placeName,
+      'destination_address':destination.placeName,
+      'location':pickupMap,
+      'destination':destinationMap,
+      'payment_method':'card',
+      'driver_id':'wait',
+    };
+    rideRef.set(rideMap);
   }
 
   resetApp() {
