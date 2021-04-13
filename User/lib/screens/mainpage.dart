@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   GoogleMapController mapController;
   double searchSheetHeight = 300;
   double mapBottomPadding = 0;
-  double requestingSheetHeight=0;
+  double requestingSheetHeight = 0;
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
@@ -52,15 +52,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   DirectionDetails tripDirectionDetails;
 
   DatabaseReference rideRef;
-  void showRequestingSheet(){
-    setState(() {
-      rideDetailsSheetHeight=0;
-      requestingSheetHeight=250;
-      drawerCarOpen=true;
 
+  void showRequestingSheet() {
+    setState(() {
+      rideDetailsSheetHeight = 0;
+      requestingSheetHeight = 250;
+      drawerCarOpen = true;
     });
     createRideRequest();
-
   }
 
   void setupPositionLocator() async {
@@ -85,11 +84,13 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       drawerCarOpen = false;
     });
   }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     HelperMethod.getCurrentUserInfo();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -523,7 +524,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                             color: BrandColors.colorGreen,
                             onPressed: () {
                               showRequestingSheet();
-
                             },
                           ),
                         )
@@ -568,24 +568,38 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                         'Requesting your trip....',
                         style: TextStyle(fontSize: 25),
                       ),
-                      SizedBox(height: 20,),
-                      Container(
-                        height: 52,
-                        width: 52,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(26),
-                          border: Border.all(width: 1.5,color:Colors.black38),
-                        ),
-                        child: Icon(Icons.close,size: 30,),
+                      SizedBox(
+                        height: 20,
                       ),
-                      SizedBox(height: 5,),
+                      GestureDetector(
+                        onTap: () {
+                          cancelRequest();
+                          resetApp();
+                        },
+                        child: Container(
+                          height: 52,
+                          width: 52,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(26),
+                            border:
+                                Border.all(width: 1.5, color: Colors.black38),
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Container(
                         width: double.infinity,
                         child: Text(
                           "Cancel Trip",
                           textAlign: TextAlign.center,
-                          style:TextStyle(fontSize: 14),
+                          style: TextStyle(fontSize: 14),
                         ),
                       )
                     ],
@@ -711,32 +725,37 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       _Circles.add(destinationCircle);
     });
   }
-  void createRideRequest(){
-    rideRef =FirebaseDatabase.instance.reference().child('rideRequest').push();
 
-    var pickup= Provider.of<Appdata>(context,listen: false).pickupAddress;
-    var destination=Provider.of<Appdata>(context,listen: false).destinationAddress;
-    Map pickupMap={
-      'latitude': destination.latitude.toString(),
-      'longitude':pickup.longitude.toString(),
-    };
-    Map destinationMap={
-      'latitude': destination.latitude.toString(),
-      'longitude':destination.longitude.toString(),
+  void createRideRequest() {
+    rideRef = FirebaseDatabase.instance.reference().child('rideRequest').push();
 
+    var pickup = Provider.of<Appdata>(context, listen: false).pickupAddress;
+    var destination =
+        Provider.of<Appdata>(context, listen: false).destinationAddress;
+    Map pickupMap = {
+      'latitude': destination.latitude.toString(),
+      'longitude': pickup.longitude.toString(),
     };
-    Map rideMap={
+    Map destinationMap = {
+      'latitude': destination.latitude.toString(),
+      'longitude': destination.longitude.toString(),
+    };
+    Map rideMap = {
       'created_at': DateTime.now().toString(),
       'user_name': currentUserInfo.fullName,
-      'user_phone':currentUserInfo.phone,
-      'pickup_andress':pickup.placeName,
-      'destination_address':destination.placeName,
-      'location':pickupMap,
-      'destination':destinationMap,
-      'payment_method':'card',
-      'driver_id':'wait',
+      'user_phone': currentUserInfo.phone,
+      'pickup_andress': pickup.placeName,
+      'destination_address': destination.placeName,
+      'location': pickupMap,
+      'destination': destinationMap,
+      'payment_method': 'card',
+      'driver_id': 'wait',
     };
     rideRef.set(rideMap);
+  }
+
+  void cancelRequest() {
+    rideRef.remove();
   }
 
   resetApp() {
@@ -746,6 +765,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       _Markers.clear();
       _Circles.clear();
       rideDetailsSheetHeight = 0;
+      requestingSheetHeight = 0;
       searchSheetHeight = 300;
       mapBottomPadding = 10;
       drawerCarOpen = true;
