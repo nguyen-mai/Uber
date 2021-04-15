@@ -46,6 +46,7 @@ dependencies:
   animated_text_kit: ^2.1.0
   flutter_spinkit: "^4.1.2"
   google_sign_in: ^5.0.1
+  test: ^1.16.5
 
 
 dev_dependencies:
