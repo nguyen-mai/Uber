@@ -1,14 +1,37 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uber/DataProvider/appdata.dart';
 import 'package:uber/Helper/RequestHelper.dart';
 import 'package:uber/datamodels/address.dart';
 import 'package:uber/datamodels/directiondetails.dart';
+import 'package:uber/datamodels/user.dart';
 import 'package:uber/globevariable.dart';
 import 'package:provider/provider.dart';
+import 'package:uber/main.dart';
 
 class HelperMethod {
+  static void getCurrentUserInfo() async {
+    currentFirebaseUser=await FirebaseAuth.instance.currentUser;
+    String userId = currentFirebaseUser.uid;
+
+
+    DatabaseReference usersRef= FirebaseDatabase.instance.reference().child('users').child(userId);
+    usersRef.once().then((DataSnapshot snapshot){
+      if(snapshot.value!=null){
+        //print(snapshot.value);
+        currentUserInfo= UserInfomation.fromSnapshot(snapshot);
+        print('My name is ${currentUserInfo.fullName}');
+        userName=currentUserInfo.fullName;
+        print(userName);
+        print(userId);
+
+      }
+    });
+  }
+
   static Future<String> findCordinateAndress(Position position, context) async {
     String placeAddress = '';
     var connectivityReslut = await Connectivity().checkConnectivity();
@@ -17,7 +40,8 @@ class HelperMethod {
       return placeAddress;
     }
     var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=${mapKey}');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position
+            .latitude},${position.longitude}&key=${mapKey}');
     var response = await RequestHelper.getRequest(url);
     if (response != "failed") {
       placeAddress = response['results'][0]['formatted_address'];
@@ -35,10 +59,12 @@ class HelperMethod {
     return placeAddress;
   }
 
-  static Future<DirectionDetails> getDirectionDetails(
-      LatLng startPosition, LatLng endPosition) async {
+  static Future<DirectionDetails> getDirectionDetails(LatLng startPosition,
+      LatLng endPosition) async {
     var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/directions/json?origin=${startPosition.latitude},${startPosition.longitude}&destination=${endPosition.latitude},${endPosition.longitude}&mode=driving&key=$mapKey');
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${startPosition
+            .latitude},${startPosition.longitude}&destination=${endPosition
+            .latitude},${endPosition.longitude}&mode=driving&key=$mapKey');
 
     var response = await RequestHelper.getRequest(url);
 
@@ -49,17 +75,17 @@ class HelperMethod {
     DirectionDetails directionDetails = DirectionDetails();
 
     directionDetails.durationText =
-        response['routes'][0]['legs'][0]['duration']['text'];
+    response['routes'][0]['legs'][0]['duration']['text'];
     directionDetails.durationValue =
-        response['routes'][0]['legs'][0]['duration']['value'];
+    response['routes'][0]['legs'][0]['duration']['value'];
 
     directionDetails.distanceText =
-        response['routes'][0]['legs'][0]['distance']['text'];
+    response['routes'][0]['legs'][0]['distance']['text'];
     directionDetails.distanceValue =
-        response['routes'][0]['legs'][0]['distance']['value'];
+    response['routes'][0]['legs'][0]['distance']['value'];
 
     directionDetails.encodedPoints =
-        response['routes'][0]['overview_polyline']['points'];
+    response['routes'][0]['overview_polyline']['points'];
 
     return directionDetails;
   }

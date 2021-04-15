@@ -9,7 +9,6 @@ import 'package:uber/screens/registrationpage.dart';
 
 import 'dart:io';
 
-import 'package:uber/screens/registrationpage.dart';
 
 Future<void> main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +36,7 @@ Future<void> main() async {
 }
 
 DatabaseReference usersRef =
-    FirebaseDatabase.instance.reference().child("users");
+FirebaseDatabase.instance.reference().child("users");
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

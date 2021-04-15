@@ -35,6 +35,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   GoogleMapController mapController;
   double searchSheetHeight = 300;
   double mapBottomPadding = 0;
+  double requestingSheetHeight = 0;
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Completer<GoogleMapController> _controller = Completer();
 
@@ -49,6 +50,17 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   final fommatter = new NumberFormat.currency(locale: 'vi_VN', symbol: 'VND');
 
   DirectionDetails tripDirectionDetails;
+
+  DatabaseReference rideRef;
+
+  void showRequestingSheet() {
+    setState(() {
+      rideDetailsSheetHeight = 0;
+      requestingSheetHeight = 250;
+      drawerCarOpen = true;
+    });
+    createRideRequest();
+  }
 
   void setupPositionLocator() async {
     Position position = await geoLocator.getCurrentPosition(
@@ -71,6 +83,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       mapBottomPadding = 10;
       drawerCarOpen = false;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    HelperMethod.getCurrentUserInfo();
   }
 
   @override
@@ -103,7 +121,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "User",
+                              '$userName',
                               style: TextStyle(
                                   fontSize: 20, fontFamily: "Brand-Bold"),
                             ),
@@ -260,7 +278,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                         Text(
                           "Where are you going",
                           style:
-                              TextStyle(fontSize: 20, fontFamily: "Brand-Bold"),
+                          TextStyle(fontSize: 20, fontFamily: "Brand-Bold"),
                         ),
                         SizedBox(
                           height: 20,
@@ -330,11 +348,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                 children: <Widget>[
                                   Text(
                                     (Provider.of<Appdata>(context)
-                                                .pickupAddress !=
-                                            null)
+                                        .pickupAddress !=
+                                        null)
                                         ? Provider.of<Appdata>(context)
-                                            .pickupAddress
-                                            .placeName
+                                        .pickupAddress
+                                        .placeName
                                         : "And home",
                                     style: TextStyle(fontSize: 16),
                                   ),
@@ -461,8 +479,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                 Text(
                                   (tripDirectionDetails != null)
                                       ? fommatter.format(
-                                          HelperMethod.estimateFares(
-                                              tripDirectionDetails))
+                                      HelperMethod.estimateFares(
+                                          tripDirectionDetails))
                                       : '',
                                   style: TextStyle(
                                       fontSize: 18, fontFamily: 'Brand-Bold'),
@@ -504,7 +522,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                           child: TaxiButton(
                             title: 'REQUEST CAR',
                             color: BrandColors.colorGreen,
-                            onPressed: () {},
+                            onPressed: () {
+                              showRequestingSheet();
+                            },
                           ),
                         )
                       ],
@@ -531,7 +551,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                               0.7,
                             ))
                       ]),
-                  height: 250,
+                  height: requestingSheetHeight,
                   child: Column(
                     children: <Widget>[
                       SizedBox(
@@ -548,24 +568,38 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                         'Requesting your trip....',
                         style: TextStyle(fontSize: 25),
                       ),
-                      SizedBox(height: 20,),
-                      Container(
-                        height: 52,
-                        width: 52,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(26),
-                          border: Border.all(width: 1.5,color:Colors.black38),
-                        ),
-                        child: Icon(Icons.close,size: 30,),
+                      SizedBox(
+                        height: 20,
                       ),
-                      SizedBox(height: 5,),
+                      GestureDetector(
+                        onTap: () {
+                          cancelRequest();
+                          resetApp();
+                        },
+                        child: Container(
+                          height: 52,
+                          width: 52,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(26),
+                            border:
+                            Border.all(width: 1.5, color: Colors.black38),
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Container(
                         width: double.infinity,
                         child: Text(
                           "Cancel Trip",
                           textAlign: TextAlign.center,
-                          style:TextStyle(fontSize: 14),
+                          style: TextStyle(fontSize: 14),
                         ),
                       )
                     ],
@@ -587,11 +621,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) => ProgressDialog(
-              status: "Please wait...",
-            ));
+          status: "Please wait...",
+        ));
 
     var thisDetails =
-        await HelperMethod.getDirectionDetails(pickLatLng, destinationLatLng);
+    await HelperMethod.getDirectionDetails(pickLatLng, destinationLatLng);
     setState(() {
       tripDirectionDetails = thisDetails;
     });
@@ -600,7 +634,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     PolylinePoints polylinePoints = PolylinePoints();
     List<PointLatLng> results =
-        polylinePoints.decodePolyline(thisDetails.encodedPoints);
+    polylinePoints.decodePolyline(thisDetails.encodedPoints);
 
     polyLineCoordinates.clear();
 
@@ -660,7 +694,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       position: destinationLatLng,
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       infoWindow:
-          InfoWindow(title: destination.placeName, snippet: 'Destination'),
+      InfoWindow(title: destination.placeName, snippet: 'Destination'),
     );
 
     setState(() {
@@ -692,6 +726,38 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     });
   }
 
+  void createRideRequest() {
+    rideRef = FirebaseDatabase.instance.reference().child('rideRequest').push();
+
+    var pickup = Provider.of<Appdata>(context, listen: false).pickupAddress;
+    var destination =
+        Provider.of<Appdata>(context, listen: false).destinationAddress;
+    Map pickupMap = {
+      'latitude': destination.latitude.toString(),
+      'longitude': pickup.longitude.toString(),
+    };
+    Map destinationMap = {
+      'latitude': destination.latitude.toString(),
+      'longitude': destination.longitude.toString(),
+    };
+    Map rideMap = {
+      'created_at': DateTime.now().toString(),
+      'user_name': currentUserInfo.fullName,
+      'user_phone': currentUserInfo.phone,
+      'pickup_andress': pickup.placeName,
+      'destination_address': destination.placeName,
+      'location': pickupMap,
+      'destination': destinationMap,
+      'payment_method': 'card',
+      'driver_id': 'wait',
+    };
+    rideRef.set(rideMap);
+  }
+
+  void cancelRequest() {
+    rideRef.remove();
+  }
+
   resetApp() {
     setState(() {
       polyLineCoordinates.clear();
@@ -699,6 +765,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       _Markers.clear();
       _Circles.clear();
       rideDetailsSheetHeight = 0;
+      requestingSheetHeight = 0;
       searchSheetHeight = 300;
       mapBottomPadding = 10;
       drawerCarOpen = true;
