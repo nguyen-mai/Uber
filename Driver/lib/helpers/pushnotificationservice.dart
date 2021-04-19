@@ -7,16 +7,16 @@ class PushNotificationService {
   final FirebaseMessaging fcm = FirebaseMessaging.instance;
 
   Future initialize() async {
-    Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+    // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       // If you're going to use other Firebase services in the background, such as Firestore,
       // make sure you call `initializeApp` before using other Firebase services.
       await Firebase.initializeApp();
 
-      // RemoteMessage message;
+      RemoteMessage message;
 
-      print("Handling a background message: ${message.messageId}");
-    }
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+      print("Handling a background message: ${message}");
+    // }
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
   Future<String> getToken() async {
