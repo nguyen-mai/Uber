@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -100,4 +102,12 @@ class HelperMethod {
     double totalFare = basefare + distanceFare + timeFare;
     return totalFare.truncate();
   }
+
+  static double generateRandomNumber(int max) {
+    var randomGenerator = Random();
+    int randInt = randomGenerator.nextInt(max);
+
+    return randInt.toDouble();
+  }
+
 }

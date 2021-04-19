@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:driver/brand_colors.dart';
 import 'package:driver/globalvariables.dart';
+import 'package:driver/helpers/pushnotificationservice.dart';
 import 'package:driver/widgets/AvailabilityButton.dart';
 import 'package:driver/widgets/ConfirmSheet.dart';
 import 'package:driver/widgets/TaxiButton.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,11 @@ class _HomeTabState extends State<HomeTab> {
   var geolocator = Geolocator();
   var locationOptions = LocationOptions(accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
 
+  String availabilityTitle ='GO ONLINE';
+  Color availabilityColor = BrandColors.colorOrange;
+
+  bool isAvailable = false;
+
   // Lấy Vị trí hiện tại
   void getCurrentPosition() async {
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
@@ -35,6 +42,23 @@ class _HomeTabState extends State<HomeTab> {
     LatLng pos = LatLng(position.latitude, position.longitude);
     mapController.animateCamera(CameraUpdate.newLatLng(pos));
   }
+
+  void getCurrentDriverInfo() async {
+    currentFirebaseUser = await FirebaseAuth.instance.currentUser;
+    PushNotificationService pushNotificationService = PushNotificationService();
+
+    pushNotificationService.initialize();
+    pushNotificationService.getToken();
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentDriverInfo();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,16 +92,40 @@ class _HomeTabState extends State<HomeTab> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AvailabilityButton(
-                title: 'GO ONLINE',
-                color:  BrandColors.colorOrange,
+                title: availabilityTitle,
+                color:  availabilityColor,
                 onPressed: () {
-                  // GoOnLine();
-                  // getLocationUpdates();
+
                   
                   showModalBottomSheet(
                     isDismissible: false,
                     context: context,
-                    builder: (BuildContext context) => ConfirmSheet()
+                    builder: (BuildContext context) => ConfirmSheet(
+                      title: (!isAvailable) ? 'GO ONLINE' : 'GO OFFLINE',
+                      subtitle: (!isAvailable) ? 'You are about to become available to receive trip requests' : 'You will stop receiving new trip requests',
+                      onPressed: () {
+                        if(!isAvailable) {
+                          GoOnLine();
+                          getLocationUpdates();
+                          Navigator.pop(context);
+
+                          setState(() {
+                            availabilityColor = BrandColors.colorGreen;
+                            availabilityTitle = 'GO OFFLINE';
+                            isAvailable = true;
+                          });
+                        }
+                        else {
+                          goOffline();
+                          Navigator.pop(context);
+                          setState(() {
+                            availabilityColor = BrandColors.colorOrange;
+                            availabilityTitle = 'GO ONLINE';
+                            isAvailable = false;
+                          });
+                        }
+                      },
+                    )
                   );
                 },
               ),
@@ -99,8 +147,14 @@ class _HomeTabState extends State<HomeTab> {
     tripRequestRef.set('waiting');
     
     tripRequestRef.onValue.listen((event) {
-
     });
+  }
+
+  void goOffline() {
+    Geofire.removeLocation((currentFirebaseUser.uid));
+    tripRequestRef.onDisconnect();
+    tripRequestRef.remove();
+    tripRequestRef = null;
   }
 
   // Update driver location
@@ -108,7 +162,10 @@ class _HomeTabState extends State<HomeTab> {
 
     homeTabPositionStream = geolocator.getPositionStream(locationOptions).listen((Position position) {
       currentPosition = position;
-      Geofire.setLocation(currentFirebaseUser.uid, position.latitude, position.longitude);
+
+      if(isAvailable) {
+        Geofire.setLocation(currentFirebaseUser.uid, position.latitude, position.longitude);
+      }
 
       LatLng pos = LatLng(position.latitude, position.longitude);
       mapController.animateCamera(CameraUpdate.newLatLng(pos));

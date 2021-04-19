@@ -14,16 +14,16 @@ class TaxiOutlineButton extends StatelessWidget {
     return OutlineButton(
         borderSide: BorderSide(color: color),
         shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(25.0),
+          borderRadius: new BorderRadius.circular(25),
         ),
         onPressed: onPressed,
         color: color,
         textColor: color,
         child: Container(
-          height: 50.0,
+          height: 50,
           child: Center(
             child: Text(title,
-                style: TextStyle(fontSize: 15.0, fontFamily: 'Brand-Bold', color: BrandColors.colorText)),
+                style: TextStyle(fontSize: 18, fontFamily: 'Brand-Bold', color: BrandColors.colorText)),
           ),
         )
     );
