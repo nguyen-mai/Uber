@@ -22,19 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b32a503e-a78b-4809-a57e-453577834bb1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Driver/lib/tabs/hometab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Driver/lib/tabs/hometab.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Driver/lib/widgets/ConfirmSheet.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Driver/lib/widgets/ConfirmSheet.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Driver/lib/widgets/TaxiOutlineButton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Driver/lib/widgets/TaxiOutlineButton.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Driver/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Driver/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Driver/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Driver/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User/lib/Helper/helperMethods.dart" beforeDir="false" afterPath="$PROJECT_DIR$/User/lib/Helper/helperMethods.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User/lib/screens/mainpage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/User/lib/screens/mainpage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/User/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/User/pubspec.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="b32a503e-a78b-4809-a57e-453577834bb1" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
