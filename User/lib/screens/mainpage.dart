@@ -133,13 +133,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                           width: 60,
                         ),
                         SizedBox(
-                          width: 15,
+                          width: 10,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               '$userName',
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                   fontSize: 20, fontFamily: "Brand-Bold"),
                             ),
