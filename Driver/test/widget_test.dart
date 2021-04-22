@@ -26,5 +26,38 @@ void main() {
     // Verify that our counter has incremented.
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
-  });
+    test('Empty Email Test', () {
+      var result = FieldValidator.validateEmail('');
+      expect(result, 'Enter Email!');
+    });
+
+
+    test('Invalid Email Test', () {
+      var result = FieldValidator.validateEmail('');
+      expect(result, 'Enter Valid Email!');
+    });
+    test('Empty Email Test', () {
+      var result = LoginPage().loginUser(BuildContext context);
+      expect(result, 'You are loggin now');
+    });
+    test('Empty Email Test', () {
+      var result = FieldValidator.validateEmail('');
+      expect(result, 'Enter Email!');
+    });
+
+    test('Empty Password Test', () {
+      var result = FieldValidator.validatePassword('');
+      expect(result, 'Enter Password!');
+    });
+
+    test('Valid Password Test', () {
+      var result = FieldValidator.validatePassword('ajay12345');
+      expect(result, null);
+    });
+    test('Empty Email Test', () {
+      var result = registerUser(BuildContext context){
+        expect(result, 'Error');
+      });
+  }
+  );
 }
