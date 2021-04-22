@@ -10,7 +10,6 @@ import 'package:driver/screens/mainpage.dart';
 import 'package:driver/screens/registrationpage.dart';
 
 import 'dart:io';
-
 import 'package:driver/screens/registrationpage.dart';
 
 Future<void> main() async {
