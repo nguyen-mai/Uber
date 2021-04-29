@@ -3,12 +3,12 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/Driver/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/Driver/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/Driver/build" />
       <excludeFolder url="file://$MODULE_DIR$/User/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/User/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/User/build" />
+      <excludeFolder url="file://$MODULE_DIR$/driver/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/rider/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/rider/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/rider/build" />

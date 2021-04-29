@@ -173,6 +173,7 @@
         <entry key="firebase_auth">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-1.1.0/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-1.0.1/lib" />
             </list>
           </value>
@@ -180,6 +181,7 @@
         <entry key="firebase_auth_platform_interface">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_platform_interface-4.1.0/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_platform_interface-4.0.0/lib" />
             </list>
           </value>
@@ -187,6 +189,7 @@
         <entry key="firebase_auth_web">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-1.0.6/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-1.0.3/lib" />
             </list>
           </value>
@@ -194,6 +197,7 @@
         <entry key="firebase_core">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.0.3/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.0.2/lib" />
             </list>
           </value>
@@ -215,7 +219,29 @@
         <entry key="firebase_database">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_database-6.1.2/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_database-6.1.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="firebase_messaging">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-9.1.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="firebase_messaging_platform_interface">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging_platform_interface-2.1.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="firebase_messaging_web">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging_web-1.0.4/lib" />
             </list>
           </value>
         </entry>
@@ -223,6 +249,13 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../Flutter/packages/flutter/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_driver">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_driver-0.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -243,6 +276,7 @@
         <entry key="flutter_plugin_android_lifecycle">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.1/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.0/lib" />
             </list>
           </value>
@@ -320,6 +354,7 @@
         <entry key="google_maps_flutter">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.0.3/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.0.1/lib" />
             </list>
           </value>
@@ -327,6 +362,7 @@
         <entry key="google_maps_flutter_platform_interface">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter_platform_interface-2.0.4/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter_platform_interface-2.0.3/lib" />
             </list>
           </value>
@@ -481,6 +517,7 @@
         <entry key="path_provider_platform_interface">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-2.0.1/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-2.0.0/lib" />
             </list>
           </value>
@@ -530,6 +567,7 @@
         <entry key="process">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.1/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/process-4.1.1/lib" />
             </list>
           </value>
@@ -754,6 +792,7 @@
         <entry key="win32">
           <value>
             <list>
+              <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.0.5/lib" />
               <option value="$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.0.4/lib" />
             </list>
           </value>
@@ -807,15 +846,25 @@
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/ffi-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-1.0.1/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-1.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_platform_interface-4.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_platform_interface-4.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-1.0.3/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-1.0.6/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.0.2/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_platform_interface-4.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.0.2/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_database-6.1.1/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_database-6.1.2/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-9.1.1/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging_platform_interface-2.1.1/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging_web-1.0.4/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_driver-0.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_geofire-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_launcher_icons-0.9.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_polyline_points-0.2.6/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-4.1.2+1/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/fluttericon-2.0.0/lib" />
@@ -825,7 +874,9 @@
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/glob-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_api_availability-2.0.4/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.0.1/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter_platform_interface-2.0.3/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter_platform_interface-2.0.4/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-5.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_platform_interface-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.10.0/lib" />
@@ -848,6 +899,7 @@
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-2.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.11.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-4.1.0/lib" />
@@ -855,6 +907,7 @@
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/pool-1.5.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/process-4.1.1/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.1/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/provider-5.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/pub_semver-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/quiver-3.0.1/lib" />
@@ -886,6 +939,7 @@
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/web_socket_channel-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/webkit_inspection_protocol-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.0.4/lib" />
+      <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.0.5/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/xdg_directories-0.2.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/xml-5.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../Flutter/.pub-cache/hosted/pub.dartlang.org/yaml-3.1.0/lib" />
