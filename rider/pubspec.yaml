@@ -46,11 +46,8 @@ dependencies:
   animated_text_kit: ^2.1.0
   flutter_spinkit: "^4.1.2"
   google_sign_in: ^5.0.1
-<<<<<<< HEAD
   flutter_geofire: ^2.0.0
-=======
   test: ^1.16.5
->>>>>>> 3323482107009d6e1d69d2d934571d8a249cb0fa
 
 
 dev_dependencies:

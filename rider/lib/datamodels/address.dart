@@ -8,6 +8,7 @@ class Address {
   Address({
     this.placeId,
     this.latitude,
+    this.longitude,
     this.placeName,
     this.placeFormattedAddress,
   });

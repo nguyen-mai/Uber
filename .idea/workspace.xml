@@ -23,8 +23,129 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b32a503e-a78b-4809-a57e-453577834bb1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uber.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uber.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Driver/lib/helpers/pushnotificationservice.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Driver/lib/helpers/pushnotificationservice.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/.metadata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/google-services.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/debug/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/kotlin/com/example/uber/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/res/drawable-v21/launch_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/res/drawable/launch_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/res/values-night/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/main/res/values/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/app/src/profile/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/android/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/assets/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/fonts/SVN-Product Sans Bold Italic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/fonts/SVN-Product Sans Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/fonts/SVN-Product Sans Italic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/fonts/SVN-Product Sans Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/fonts/bolt-regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/fonts/bolt-semibold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/google-services.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/Logo_create.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/Taxi_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/car_android.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/car_ios.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/desticon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/desticon1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/google_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/logo_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/pickicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/posimarker.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/redmarker.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/taxi.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/user_drawer.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/images/user_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Flutter/AppFrameworkInfo.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Flutter/Debug.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Flutter/Release.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/AppDelegate.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Base.lproj/LaunchScreen.storyboard" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Base.lproj/Main.storyboard" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/ios/Runner/Runner-Bridging-Header.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/DataProvider/appdata.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/Helper/RequestHelper.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/Helper/firehelper.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/Helper/helperMethods.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/Style/style.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/brand_colors.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/datamodels/address.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/datamodels/directiondetails.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/datamodels/nearbydriver.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/datamodels/prediction.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/datamodels/user.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/globevariable.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/main.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/screens/FreeRide.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/screens/History.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/screens/Info.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/screens/Payment.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/screens/Profile.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/screens/loginpage.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/screens/mainpage.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/screens/registrationpage.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/screens/searchpage.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/widgets/BrandDivier.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/widgets/PredictionTile.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/widgets/ProgressDialog.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/lib/widgets/TaxiButton.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/pubspec.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/pubspec.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/test/Login_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/test/widget_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/web/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/web/icons/Icon-192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/web/icons/Icon-512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/web/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/web/manifest.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +181,7 @@
   </component>
   <component name="RunManager">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
-      <option name="filePath" value="$PROJECT_DIR$/Driver/lib/main.dart" />
+      <option name="filePath" value="$PROJECT_DIR$/rider/lib/main.dart" />
       <method v="2" />
     </configuration>
   </component>
@@ -90,14 +211,14 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1618595106457">
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1619667141553">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1618595106457" />
-    <state x="498" y="202" key="#com.intellij.ide.util.TreeFileChooserDialog" timestamp="1618595056811">
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1619667141553" />
+    <state x="498" y="202" key="#com.intellij.ide.util.TreeFileChooserDialog" timestamp="1619667139546">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="498" y="202" key="#com.intellij.ide.util.TreeFileChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1618595056811" />
+    <state x="498" y="202" key="#com.intellij.ide.util.TreeFileChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1619667139546" />
     <state x="93" y="93" width="1350" height="638" key="AVDManager" timestamp="1618836349712">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -34,7 +34,7 @@ class HelperMethod {
     });
   }
 
-  static Future<String> findCordinateAndress(Position position, context) async {
+  static Future<String> findCordinateAdress(Position position, context) async {
     String placeAddress = '';
     var connectivityReslut = await Connectivity().checkConnectivity();
     if (connectivityReslut != ConnectivityResult.mobile &&
@@ -53,7 +53,7 @@ class HelperMethod {
       pickupAddress.placeName = placeAddress;
 
       Provider.of<Appdata>(context, listen: false)
-          .updatePickupAndress(pickupAddress);
+          .updatePickupAddress(pickupAddress);
     }
     /* if(response=="failed"){
       return "Unknown";

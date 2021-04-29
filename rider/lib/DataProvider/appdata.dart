@@ -5,7 +5,7 @@ class Appdata extends ChangeNotifier{
    Address pickupAddress;
    Address destinationAddress;
 
-   void updatePickupAndress(Address pickup){
+   void updatePickupAddress(Address pickup){
      pickupAddress= pickup;
      notifyListeners();
    }
