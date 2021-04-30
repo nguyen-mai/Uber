@@ -9,7 +9,7 @@ import 'package:uber/screens/registrationpage.dart';
 import 'package:uber/widgets/TaxiButton.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:uber/datamodels/user.dart';
 class LoginPage extends StatelessWidget {
 
   static const String id = 'login';

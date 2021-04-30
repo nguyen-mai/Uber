@@ -23,16 +23,16 @@ class RegistrationPage extends StatelessWidget {
 
   void registerUser(BuildContext context) async {
     final User firebaseUser = (await _firebaseAuth
-        .createUserWithEmailAndPassword(
-        email: emailEditingController.text,
-        password: passwordEditingController.text)
-        .catchError((errorMsg) {
+            .createUserWithEmailAndPassword(
+                email: emailEditingController.text,
+                password: passwordEditingController.text)
+            .catchError((errorMsg) {
       displayToastMessage("Error: " + errorMsg.toString(), context);
     }))
         .user;
 
     if (firebaseUser != null) // user created
-        {
+    {
       // save user info to db
 
       Map userDataMap = {
@@ -45,7 +45,8 @@ class RegistrationPage extends StatelessWidget {
       displayToastMessage(
           "Congratulations, your account has been created", context);
 
-      Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, LoginPage.id, (route) => false);
     } else {
       // error occured - display error msg
       displayToastMessage("User account has not been created", context);
@@ -162,15 +163,18 @@ class RegistrationPage extends StatelessWidget {
                             if (nameEditingController.text.length < 1) {
                               displayToastMessage(
                                   "Name must be at least 1 character", context);
-                            } else if (!emailEditingController.text.contains("@")) {
+                            } else if (!emailEditingController.text
+                                .contains("@")) {
                               displayToastMessage(
                                   "Email address is not valid", context);
                             } else if (phoneEditingController.text.isEmpty) {
                               displayToastMessage(
                                   "Phone number is mandatiry", context);
-                            } else if (passwordEditingController.text.length < 8) {
+                            } else if (passwordEditingController.text.length <
+                                8) {
                               displayToastMessage(
-                                  "Password must be at least 8 character", context);
+                                  "Password must be at least 8 character",
+                                  context);
                             } else {
                               registerUser(context);
                             }

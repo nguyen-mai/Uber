@@ -16,57 +16,54 @@ import 'package:uber/main.dart';
 
 class HelperMethod {
   static void getCurrentUserInfo() async {
-    currentFirebaseUser=await FirebaseAuth.instance.currentUser;
+    currentFirebaseUser = await FirebaseAuth.instance.currentUser;
     String userId = currentFirebaseUser.uid;
 
-
-    DatabaseReference usersRef= FirebaseDatabase.instance.reference().child('users').child(userId);
-    usersRef.once().then((DataSnapshot snapshot){
-      if(snapshot.value!=null){
+    DatabaseReference usersRef =
+        FirebaseDatabase.instance.reference().child('users').child(userId);
+    usersRef.once().then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
         //print(snapshot.value);
-        currentUserInfo= UserInfomation.fromSnapshot(snapshot);
-        print('My name is ${currentUserInfo.fullName}');
-        userName=currentUserInfo.fullName;
-        print(userName);
-        print(userId);
+        currentUserInfo = UserInfomation.fromSnapshot(snapshot);
+        //print('My name is ${currentUserInfo.fullName}');
+        userName = currentUserInfo.fullName;
+        //print(userName);
+        //print(userId);
 
       }
     });
   }
 
-  static Future<String> findCordinateAdress(Position position, context) async {
-    String placeAddress = '';
+  static Future<String> findCordinateAndress(Position position, context) async {
+    String placeAndress = '';
     var connectivityReslut = await Connectivity().checkConnectivity();
     if (connectivityReslut != ConnectivityResult.mobile &&
         connectivityReslut != ConnectivityResult.wifi) {
-      return placeAddress;
+      return placeAndress;
     }
     var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position
-            .latitude},${position.longitude}&key=${mapKey}');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=${mapKey}');
     var response = await RequestHelper.getRequest(url);
     if (response != "failed") {
-      placeAddress = response['results'][0]['formatted_address'];
-      Address pickupAddress = new Address();
-      pickupAddress.longitude = position.longitude;
-      pickupAddress.latitude = position.latitude;
-      pickupAddress.placeName = placeAddress;
+      placeAndress = response['results'][0]['formatted_address'];
+      Address pickupAndress = new Address();
+      pickupAndress.longitude = position.longitude;
+      pickupAndress.latitude = position.latitude;
+      pickupAndress.placeName = placeAndress;
 
       Provider.of<Appdata>(context, listen: false)
-          .updatePickupAddress(pickupAddress);
+          .updatePickupAddress(pickupAndress);
     }
     /* if(response=="failed"){
       return "Unknown";
     }*/
-    return placeAddress;
+    return placeAndress;
   }
 
-  static Future<DirectionDetails> getDirectionDetails(LatLng startPosition,
-      LatLng endPosition) async {
+  static Future<DirectionDetails> getDirectionDetails(
+      LatLng startPosition, LatLng endPosition) async {
     var url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/directions/json?origin=${startPosition
-            .latitude},${startPosition.longitude}&destination=${endPosition
-            .latitude},${endPosition.longitude}&mode=driving&key=$mapKey');
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${startPosition.latitude},${startPosition.longitude}&destination=${endPosition.latitude},${endPosition.longitude}&mode=driving&key=$mapKey');
 
     var response = await RequestHelper.getRequest(url);
 
@@ -77,17 +74,17 @@ class HelperMethod {
     DirectionDetails directionDetails = DirectionDetails();
 
     directionDetails.durationText =
-    response['routes'][0]['legs'][0]['duration']['text'];
+        response['routes'][0]['legs'][0]['duration']['text'];
     directionDetails.durationValue =
-    response['routes'][0]['legs'][0]['duration']['value'];
+        response['routes'][0]['legs'][0]['duration']['value'];
 
     directionDetails.distanceText =
-    response['routes'][0]['legs'][0]['distance']['text'];
+        response['routes'][0]['legs'][0]['distance']['text'];
     directionDetails.distanceValue =
-    response['routes'][0]['legs'][0]['distance']['value'];
+        response['routes'][0]['legs'][0]['distance']['value'];
 
     directionDetails.encodedPoints =
-    response['routes'][0]['overview_polyline']['points'];
+        response['routes'][0]['overview_polyline']['points'];
 
     return directionDetails;
   }
@@ -109,5 +106,4 @@ class HelperMethod {
 
     return randInt.toDouble();
   }
-
 }

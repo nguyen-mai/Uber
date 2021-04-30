@@ -80,6 +80,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     mapController.animateCamera(CameraUpdate.newCameraPosition(cp));
 
     startGeofireListener();
+    //call andress func
+    String address = await HelperMethod.findCordinateAndress(position, context);
+    // print(address);
   }
 
   void showDetailSheet() async {
@@ -93,9 +96,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 
   void createMarker() {
-    if(nearByIcon == null) {
-      ImageConfiguration imageConfiguration = createLocalImageConfiguration(context, size: Size(2, 2));
-      BitmapDescriptor.fromAssetImage(imageConfiguration, 'images/car_android.png').then((icon) {
+    if (nearByIcon == null) {
+      ImageConfiguration imageConfiguration =
+          createLocalImageConfiguration(context, size: Size(2, 2));
+      BitmapDescriptor.fromAssetImage(
+              imageConfiguration, 'images/car_android.png')
+          .then((icon) {
         nearByIcon = icon;
       });
     }
@@ -297,7 +303,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                         Text(
                           "Where are you going",
                           style:
-                          TextStyle(fontSize: 20, fontFamily: "Brand-Bold"),
+                              TextStyle(fontSize: 20, fontFamily: "Brand-Bold"),
                         ),
                         SizedBox(
                           height: 20,
@@ -366,15 +372,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    (Provider.of<Appdata>(context)
-                                        .pickupAddress !=
-                                        null)
-                                        ? Provider.of<Appdata>(context)
-                                        .pickupAddress
-                                        .placeName
-                                        : "And home",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
+                                      (Provider.of<Appdata>(context)
+                                                  .pickupAddress !=
+                                              null)
+                                          ? Provider.of<Appdata>(context)
+                                              .pickupAddress
+                                              .placeName
+                                          : "And home",
+                                      style: TextStyle(fontSize: 16),
+                                      overflow: TextOverflow.ellipsis),
                                   SizedBox(
                                     height: 3,
                                   ),
@@ -498,8 +504,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                                 Text(
                                   (tripDirectionDetails != null)
                                       ? fommatter.format(
-                                      HelperMethod.estimateFares(
-                                          tripDirectionDetails))
+                                          HelperMethod.estimateFares(
+                                              tripDirectionDetails))
                                       : '',
                                   style: TextStyle(
                                       fontSize: 18, fontFamily: 'Brand-Bold'),
@@ -602,7 +608,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(26),
                             border:
-                            Border.all(width: 1.5, color: Colors.black38),
+                                Border.all(width: 1.5, color: Colors.black38),
                           ),
                           child: Icon(
                             Icons.close,
@@ -640,11 +646,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) => ProgressDialog(
-          status: "Please wait...",
-        ));
+              status: "Please wait...",
+            ));
 
     var thisDetails =
-    await HelperMethod.getDirectionDetails(pickLatLng, destinationLatLng);
+        await HelperMethod.getDirectionDetails(pickLatLng, destinationLatLng);
     setState(() {
       tripDirectionDetails = thisDetails;
     });
@@ -653,7 +659,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     PolylinePoints polylinePoints = PolylinePoints();
     List<PointLatLng> results =
-    polylinePoints.decodePolyline(thisDetails.encodedPoints);
+        polylinePoints.decodePolyline(thisDetails.encodedPoints);
 
     polyLineCoordinates.clear();
 
@@ -713,7 +719,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       position: destinationLatLng,
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       infoWindow:
-      InfoWindow(title: destination.placeName, snippet: 'Destination'),
+          InfoWindow(title: destination.placeName, snippet: 'Destination'),
     );
 
     setState(() {
@@ -748,8 +754,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   // Tìm vị trí các tài xế gần người dùng
   void startGeofireListener() {
     Geofire.initialize('driversAvailable');
-    Geofire.queryAtLocation(currentPosition.latitude, currentPosition.longitude, 1).listen((map) {
-
+    Geofire.queryAtLocation(
+            currentPosition.latitude, currentPosition.longitude, 1)
+        .listen((map) {
       if (map != null) {
         var callBack = map['callBack'];
 
@@ -764,7 +771,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             nearByDriver.longitude = map['longitude'];
             FireHelper.nearByDriverList.add(nearByDriver);
 
-            if(nearByDriversKeysLoaded) {
+            if (nearByDriversKeysLoaded) {
               updateDriversOnMap();
             }
 
@@ -776,7 +783,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             break;
 
           case Geofire.onKeyMoved:
-          // Update your key's location
+            // Update your key's location
             NearByDriver nearByDriver = NearByDriver();
             nearByDriver.key = map['key'];
             nearByDriver.latitude = map['latitude'];
@@ -787,7 +794,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             break;
 
           case Geofire.onGeoQueryReady:
-          // All Intial Data is loaded
+            // All Intial Data is loaded
             nearByDriversKeysLoaded = true;
             updateDriversOnMap();
             break;
