@@ -4,17 +4,36 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class PushNotificationService {
-  final FirebaseMessaging fcm = FirebaseMessaging.instance;
+  final FirebaseMessaging fcm = FirebaseMessaging();
 
   Future initialize() async {
+   fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        String rideId = message['data']['ride_id'];
+        print('rideID: $rideId');
+      },
+
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        String rideId = message['data']['ride_id'];
+        print('rideID: $rideId');
+
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        String rideId = message['data']['ride_id'];
+        print('rideID: $rideId');
+      },
+    );
     // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       // If you're going to use other Firebase services in the background, such as Firestore,
       // make sure you call `initializeApp` before using other Firebase services.
-      await Firebase.initializeApp();
+     /* await Firebase.initializeApp();
 
       RemoteMessage message;
 
-      print("Handling a background message: ${message}");
+      print("Handling a background message: ${message}");*/
     // }
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
