@@ -1,6 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:driver/globalvariables.dart';
 import 'package:driver/screens/vehicleinfo.dart';
+import 'package:driver/widgets/ProgressDialog.dart';
 import 'package:driver/widgets/TaxiButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -24,15 +25,24 @@ class RegistrationPage extends StatelessWidget {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   void registerUser(BuildContext context) async {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => ProgressDialog(status: 'Registering you...',),
+    );
+
     final User firebaseUser = (await _firebaseAuth
         .createUserWithEmailAndPassword(
         email: emailEditingController.text,
         password: passwordEditingController.text)
         .catchError((errorMsg) {
-      displayToastMessage("Error: " + errorMsg.toString(), context);
+          Navigator.pop(context);
+          displayToastMessage("Error: " + errorMsg.toString(), context);
     }))
         .user;
 
+    Navigator.pop(context);
+    // Check if driver registration successful
     if (firebaseUser != null) // user created
         {
       // save user info to db
@@ -46,9 +56,6 @@ class RegistrationPage extends StatelessWidget {
 
       userRef.child(firebaseUser.uid).set(userDataMap);
       currentFirebaseUser = firebaseUser;
-      displayToastMessage(
-          "Congratulations, your account has been created", context);
-
       Navigator.pushNamed(context, VehicleInfoPage.id);
     } else {
       // error occured - display error msg

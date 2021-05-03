@@ -6,6 +6,7 @@ import 'package:uber/brand_colors.dart';
 import 'package:uber/main.dart';
 import 'package:uber/screens/mainpage.dart';
 import 'package:uber/screens/registrationpage.dart';
+import 'package:uber/widgets/ProgressDialog.dart';
 import 'package:uber/widgets/TaxiButton.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -13,28 +14,41 @@ import 'package:uber/datamodels/user.dart';
 class LoginPage extends StatelessWidget {
 
   static const String id = 'login';
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   TextEditingController emailEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  void showSnackBar(String title){
+    final snackbar = SnackBar(
+      content: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 15.0),),
+    );
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   void loginUser(BuildContext context) async {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => ProgressDialog(status: 'Logging you in...',),
+    );
+
     final User firebaseUser = (await _firebaseAuth
         .signInWithEmailAndPassword(
         email: emailEditingController.text,
         password: passwordEditingController.text)
         .catchError((errorMsg) {
-      displayToastMessage("Error: " + errorMsg.toString(), context);
+          Navigator.pop(context);
+          displayToastMessage("Error: " + errorMsg.toString(), context);
     })).user;
 
     if (firebaseUser != null) // user created
         {
       usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
         if (snap.value != null) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, MainPage.id, (route) => false);
-          displayToastMessage("You are logged-in now", context);
+          Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
         }
         else {
           _firebaseAuth.signOut();

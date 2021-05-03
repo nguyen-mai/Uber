@@ -6,12 +6,12 @@
       <excludeFolder url="file://$MODULE_DIR$/Driver/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/User/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/User/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/User/build" />
       <excludeFolder url="file://$MODULE_DIR$/driver/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/driver/build" />
       <excludeFolder url="file://$MODULE_DIR$/rider/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/rider/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/rider/build" />
-      <excludeFolder url="file://$MODULE_DIR$/user/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

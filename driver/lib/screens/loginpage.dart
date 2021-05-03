@@ -1,4 +1,5 @@
 import 'package:driver/screens/registrationpage.dart';
+import 'package:driver/widgets/ProgressDialog.dart';
 import 'package:driver/widgets/TaxiButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -20,21 +21,28 @@ class LoginPage extends StatelessWidget {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   void loginUser(BuildContext context) async {
+    // Show please wait dialog
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => ProgressDialog(status: 'Logging you in...',),
+    );
+
     final User firebaseUser = (await _firebaseAuth
         .signInWithEmailAndPassword(
         email: emailEditingController.text,
         password: passwordEditingController.text)
         .catchError((errorMsg) {
-      displayToastMessage("Error: " + errorMsg.toString(), context);
+          Navigator.pop(context);
+          displayToastMessage("Error: " + errorMsg.toString(), context);
     })).user;
 
+    Navigator.pop(context);
     if (firebaseUser != null) // user created
       {
       usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
         if (snap.value != null) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, MainPage.id, (route) => false);
-          displayToastMessage("You are logged-in now", context);
+          Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
         }
         else {
           // _firebaseAuth.signOut();

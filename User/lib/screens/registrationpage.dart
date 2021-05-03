@@ -1,18 +1,19 @@
-import 'package:connectivity/connectivity.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:uber/brand_colors.dart';
-import 'package:uber/main.dart';
-import 'package:uber/screens/loginpage.dart';
-import 'package:uber/screens/mainpage.dart';
-import 'package:uber/widgets/ProgressDialog.dart';
-import 'package:uber/widgets/TaxiButton.dart';
+import "package:connectivity/connectivity.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_database/firebase_database.dart";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:fluttertoast/fluttertoast.dart";
+import "package:uber/brand_colors.dart";
+import "package:uber/main.dart";
+import "package:uber/screens/loginpage.dart";
+import "package:uber/screens/mainpage.dart";
+import "package:uber/widgets/ProgressDialog.dart";
+import "package:uber/widgets/TaxiButton.dart";
 
 class RegistrationPage extends StatelessWidget {
-  static const String id = 'register';
+  static const String id = "register";
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   TextEditingController nameEditingController = TextEditingController();
   TextEditingController emailEditingController = TextEditingController();
@@ -21,16 +22,32 @@ class RegistrationPage extends StatelessWidget {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  void showSnackBar(String title){
+    final snackbar = SnackBar(
+      content: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 15.0),),
+    );
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   void registerUser(BuildContext context) async {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => ProgressDialog(status: 'Registering you...',),
+    );
+
     final User firebaseUser = (await _firebaseAuth
             .createUserWithEmailAndPassword(
                 email: emailEditingController.text,
                 password: passwordEditingController.text)
             .catchError((errorMsg) {
-      displayToastMessage("Error: " + errorMsg.toString(), context);
+              Navigator.pop(context);
+              displayToastMessage("Error: " + errorMsg.toString(), context);
     }))
         .user;
 
+    Navigator.pop(context);
+    // Check if user registration successful
     if (firebaseUser != null) // user created
     {
       // save user info to db
@@ -56,6 +73,7 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -70,15 +88,15 @@ class RegistrationPage extends StatelessWidget {
                   alignment: Alignment.center,
                   height: 200.0,
                   width: 200.0,
-                  image: AssetImage('images/icon.png'),
+                  image: AssetImage("images/icon.png"),
                 ),
                 SizedBox(
                   height: 40,
                 ),
                 Text(
-                  'Create New Account',
+                  "Create New Account",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25, fontFamily: 'Brand-Bold'),
+                  style: TextStyle(fontSize: 25, fontFamily: "Brand-Bold"),
                 ),
                 Padding(
                     padding: EdgeInsets.all(20.0),
@@ -89,7 +107,7 @@ class RegistrationPage extends StatelessWidget {
                           controller: nameEditingController,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                              labelText: 'Full name',
+                              labelText: "Full name",
                               labelStyle: TextStyle(
                                 fontSize: 14.0,
                               ),
@@ -107,7 +125,7 @@ class RegistrationPage extends StatelessWidget {
                           controller: emailEditingController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                              labelText: 'Email address',
+                              labelText: "Email address",
                               labelStyle: TextStyle(
                                 fontSize: 14.0,
                               ),
@@ -125,7 +143,7 @@ class RegistrationPage extends StatelessWidget {
                           controller: phoneEditingController,
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
-                              labelText: 'Phone number',
+                              labelText: "Phone number",
                               labelStyle: TextStyle(
                                 fontSize: 14.0,
                               ),
@@ -143,7 +161,7 @@ class RegistrationPage extends StatelessWidget {
                           controller: passwordEditingController,
                           obscureText: true,
                           decoration: InputDecoration(
-                              labelText: 'Password',
+                              labelText: "Password",
                               labelStyle: TextStyle(
                                 fontSize: 14.0,
                               ),
@@ -157,24 +175,22 @@ class RegistrationPage extends StatelessWidget {
                         ),
 
                         TaxiButton(
-                          title: 'REGISTER',
+                          title: "REGISTER",
                           color: BrandColors.colorGreen,
                           onPressed: () {
-                            if (nameEditingController.text.length < 1) {
-                              displayToastMessage(
-                                  "Name must be at least 1 character", context);
+                            if (nameEditingController.text.length < 3) {
+                              showSnackBar("Please provide a valid fullname");
+                              return;
                             } else if (!emailEditingController.text
                                 .contains("@")) {
-                              displayToastMessage(
-                                  "Email address is not valid", context);
-                            } else if (phoneEditingController.text.isEmpty) {
-                              displayToastMessage(
-                                  "Phone number is mandatiry", context);
-                            } else if (passwordEditingController.text.length <
-                                8) {
-                              displayToastMessage(
-                                  "Password must be at least 8 character",
-                                  context);
+                              showSnackBar("Please provide a valid email address");
+                              return;
+                            } else if (phoneEditingController.text.length < 10 && phoneEditingController.text.length > 13) {
+                              showSnackBar("Please provide a valid phone number");
+                              return;
+                            } else if (passwordEditingController.text.length < 8) {
+                              showSnackBar("Please provide a valid password");
+                              return;
                             } else {
                               registerUser(context);
                             }
@@ -187,7 +203,7 @@ class RegistrationPage extends StatelessWidget {
                       Navigator.pushNamedAndRemoveUntil(
                           context, LoginPage.id, (route) => false);
                     },
-                    child: Text('Already have account? Log in'))
+                    child: Text("Already have account? Log in"))
               ],
             ),
           ),
