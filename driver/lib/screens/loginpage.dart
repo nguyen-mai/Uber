@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+
 import '../brand_colors.dart';
 import '../main.dart';
 import 'mainpage.dart';
-
-
 class LoginPage extends StatelessWidget {
 
   static const String id = 'login';
@@ -31,16 +30,14 @@ class LoginPage extends StatelessWidget {
 
     if (firebaseUser != null) // user created
       {
-      DatabaseReference userRef =
-      FirebaseDatabase.instance.reference().child("drivers");
-      userRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
+      usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
         if (snap.value != null) {
           Navigator.pushNamedAndRemoveUntil(
               context, MainPage.id, (route) => false);
           displayToastMessage("You are logged-in now", context);
         }
         else {
-          _firebaseAuth.signOut();
+          // _firebaseAuth.signOut();
           displayToastMessage(
               "No record exists for this user. Please create new account",
               context);
@@ -136,7 +133,7 @@ class LoginPage extends StatelessWidget {
                       ],
                     )
                 ),
-                FlatButton(
+                TextButton(
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, RegistrationPage.id, (route) => false);

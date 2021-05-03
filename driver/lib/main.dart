@@ -21,6 +21,8 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+DatabaseReference usersRef =
+FirebaseDatabase.instance.reference().child("drivers");
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Brand-Regular',
         primarySwatch: Colors.blue,
       ),
-      //initialRoute: LoginPage.id ,
+      // initialRoute: LoginPage.id ,
       initialRoute: (currentFirebaseUser == null) ? LoginPage.id : MainPage.id,
       routes: {
         RegistrationPage.id: (context) => RegistrationPage(),
