@@ -30,6 +30,31 @@
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+      apiKey: "AIzaSyACJE9wrXRvUpCpt3tXi4cGmHRwXiDBe80",
+      authDomain: "uber-dcc4c.firebaseapp.com",
+      databaseURL: "https://uber-dcc4c-default-rtdb.firebaseio.com",
+      projectId: "uber-dcc4c",
+      storageBucket: "uber-dcc4c.appspot.com",
+      messagingSenderId: "623152305583",
+      appId: "1:623152305583:web:7ef9ad7ae3ff300c834b5a",
+      measurementId: "G-GJZJ1K08CT"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
@@ -96,3 +121,4 @@
   </script>
 </body>
 </html>
+

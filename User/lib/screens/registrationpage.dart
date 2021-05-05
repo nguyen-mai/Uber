@@ -59,14 +59,16 @@ class RegistrationPage extends StatelessWidget {
       };
 
       usersRef.child(firebaseUser.uid).set(userDataMap);
-      displayToastMessage(
-          "Congratulations, your account has been created", context);
+      showSnackBar("Congratulations, your account has been created");
+      // displayToastMessage(
+      //     "Congratulations, your account has been created", context);
 
       Navigator.pushNamedAndRemoveUntil(
           context, LoginPage.id, (route) => false);
     } else {
       // error occured - display error msg
-      displayToastMessage("User account has not been created", context);
+      showSnackBar("User account has not been created");
+      // displayToastMessage("User account has not been created", context);
     }
   }
 

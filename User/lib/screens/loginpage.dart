@@ -41,7 +41,8 @@ class LoginPage extends StatelessWidget {
         password: passwordEditingController.text)
         .catchError((errorMsg) {
           Navigator.pop(context);
-          displayToastMessage("Error: " + errorMsg.toString(), context);
+          showSnackBar("Please try again");
+          // displayToastMessage("Error: " + errorMsg.toString(), context);
     })).user;
 
     if (firebaseUser != null) // user created
@@ -52,14 +53,16 @@ class LoginPage extends StatelessWidget {
         }
         else {
           _firebaseAuth.signOut();
-          displayToastMessage(
-              "No record exists for this user. Please create new account",
-              context);
+          showSnackBar("No record exists for this user. Please create new account");
+          // displayToastMessage(
+          //     "No record exists for this user. Please create new account",
+          //     context);
         }
       });
     }
     else {
-      displayToastMessage("Error occured, can not be signed", context);
+      showSnackBar("Please try again");
+      // displayToastMessage("Error occured, can not be signed", context);
     }
   }
 
@@ -134,11 +137,11 @@ class LoginPage extends StatelessWidget {
                           color: BrandColors.colorGreen,
                           onPressed: () {
                             if (!emailEditingController.text.contains("@")) {
-                              displayToastMessage(
-                                  "Email address is not valid", context);
+                              showSnackBar("Please provide a valid email address");
+                              return;
                             } else if (passwordEditingController.text.isEmpty) {
-                              displayToastMessage(
-                                  "Password is mandoatory", context);
+                              showSnackBar("Please provide a valid password");
+                              return;
                             } else {
                               loginUser(context);
                             }
