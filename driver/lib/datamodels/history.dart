@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class TripDetail {
+class History {
   String destinationAddress;
   String pickupAddress;
   LatLng pickup;
@@ -10,7 +10,7 @@ class TripDetail {
   String riderName;
   String riderPhone;
 
-  TripDetail({
+  History({
     this.destinationAddress,
     this.pickupAddress,
     this.destination,

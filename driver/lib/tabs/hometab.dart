@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:driver/brand_colors.dart';
+import 'package:driver/datamodels/driver.dart';
 import 'package:driver/globalvariables.dart';
+import 'package:driver/helpers/helperMethods.dart';
 import 'package:driver/helpers/pushnotificationservice.dart';
 import 'package:driver/widgets/AvailabilityButton.dart';
 import 'package:driver/widgets/ConfirmSheet.dart';
+import 'package:driver/widgets/NotificationDialog.dart';
 import 'package:driver/widgets/TaxiButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -23,8 +26,7 @@ class _HomeTabState extends State<HomeTab> {
 
   GoogleMapController mapController;
   Completer<GoogleMapController> _controller = Completer();
-  Position currentPosition;
-  
+
   DatabaseReference tripRequestRef;
 
   var geolocator = Geolocator();
@@ -45,10 +47,18 @@ class _HomeTabState extends State<HomeTab> {
 
   void getCurrentDriverInfo() async {
     currentFirebaseUser = await FirebaseAuth.instance.currentUser;
+    DatabaseReference driverRef = FirebaseDatabase.instance.reference().child("drivers/${currentFirebaseUser.uid}");
+    driverRef.once().then((DataSnapshot snapshot) {
+      if(snapshot != null) {
+        currentDriverInfo = Driver.fromSnapShot(snapshot);
+      }
+    });
     PushNotificationService pushNotificationService = PushNotificationService();
-
+    
     pushNotificationService.initialize(context);
     pushNotificationService.getToken();
+
+    HelperMethod.getHistoryInfo(context);
 
   }
 
@@ -95,38 +105,41 @@ class _HomeTabState extends State<HomeTab> {
                 title: availabilityTitle,
                 color:  availabilityColor,
                 onPressed: () {
-
-                  
-                  showModalBottomSheet(
-                    isDismissible: false,
-                    context: context,
-                    builder: (BuildContext context) => ConfirmSheet(
-                      title: (!isAvailable) ? 'GO ONLINE' : 'GO OFFLINE',
-                      subtitle: (!isAvailable) ? 'You are about to become available to receive trip requests' : 'You will stop receiving new trip requests',
-                      onPressed: () {
-                        if(!isAvailable) {
-                          GoOnLine();
-                          getLocationUpdates();
-                          Navigator.pop(context);
-
-                          setState(() {
-                            availabilityColor = BrandColors.colorGreen;
-                            availabilityTitle = 'GO OFFLINE';
-                            isAvailable = true;
-                          });
-                        }
-                        else {
-                          goOffline();
-                          Navigator.pop(context);
-                          setState(() {
-                            availabilityColor = BrandColors.colorOrange;
-                            availabilityTitle = 'GO ONLINE';
-                            isAvailable = false;
-                          });
-                        }
-                      },
-                    )
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) => NotificationDialog(),
                   );
+                  // showModalBottomSheet(
+                  //   isDismissible: false,
+                  //   context: context,
+                  //   builder: (BuildContext context) => ConfirmSheet(
+                  //     title: (!isAvailable) ? 'GO ONLINE' : 'GO OFFLINE',
+                  //     subtitle: (!isAvailable) ? 'You are about to become available to receive trip requests' : 'You will stop receiving new trip requests',
+                  //     onPressed: () {
+                  //       if(!isAvailable) {
+                  //         GoOnLine();
+                  //         getLocationUpdates();
+                  //         Navigator.pop(context);
+                  //
+                  //         setState(() {
+                  //           availabilityColor = BrandColors.colorGreen;
+                  //           availabilityTitle = 'GO OFFLINE';
+                  //           isAvailable = true;
+                  //         });
+                  //       }
+                  //       else {
+                  //         goOffline();
+                  //         Navigator.pop(context);
+                  //         setState(() {
+                  //           availabilityColor = BrandColors.colorOrange;
+                  //           availabilityTitle = 'GO ONLINE';
+                  //           isAvailable = false;
+                  //         });
+                  //       }
+                  //     },
+                  //   )
+                  // );
                 },
               ),
             ],
@@ -169,7 +182,6 @@ class _HomeTabState extends State<HomeTab> {
 
       LatLng pos = LatLng(position.latitude, position.longitude);
       mapController.animateCamera(CameraUpdate.newLatLng(pos));
-
     });
   }
 }

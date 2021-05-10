@@ -1,10 +1,10 @@
 import 'dart:io';
-//import 'dart:js';
 
+// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:driver/datamodels/tripDetail.dart';
 import 'package:driver/globalvariables.dart';
+import 'package:driver/widgets/NotificationDialog.dart';
 import 'package:driver/widgets/ProgressDialog.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -25,16 +25,6 @@ class PushNotificationService {
         fetchRideInfo(getRideID(message),context);
       },
     );
-    // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
-    /* await Firebase.initializeApp();
-
-      RemoteMessage message;
-
-      print("Handling a background message: ${message}");*/
-    // }
-    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
   Future<String> getToken() async {
@@ -70,11 +60,16 @@ class PushNotificationService {
     rideRef.once().then((DataSnapshot snapshot){
       Navigator.pop(context);
       if (snapshot.value != null) {
+        // assetsAudioPlayer.open(
+        //   Audio('sounds/alert.mp3'),
+        // );
+        // assetsAudioPlayer.play();
+
         double pickupLat =
         double.parse(snapshot.value['location']['latitude'].toString());
         double pickupLng =
         double.parse(snapshot.value['location']['longitude'].toString());
-        String pickupAddress = snapshot.value['pickup_andress'].toString();
+        String pickupAddress = snapshot.value['pickup_address'].toString();
 
         double destinationLat =
         double.parse(snapshot.value['destination']['latitude'].toString());
@@ -83,15 +78,26 @@ class PushNotificationService {
         String destinationAddress =
         snapshot.value['destination_address'].toString();
         String paymentMethod = snapshot.value['payment_method'];
+        String riderName = snapshot.value['user_name'];
+        String riderPhone = snapshot.value['user_phone'];
+
 
         TripDetail tripDetail= TripDetail();
-        tripDetail.rideID=rideID;
-        tripDetail.pickupAddress=pickupAddress;
-        tripDetail.destinationAddress=destinationAddress;
-        tripDetail.pickup=LatLng(pickupLat, pickupLng);
-        tripDetail.destination=LatLng(destinationLat, destinationLng);
-        tripDetail.paymentMethod=paymentMethod;
-        print(pickupAddress);
+
+        tripDetail.riderID = rideID;
+        tripDetail.pickupAddress = pickupAddress;
+        tripDetail.destinationAddress = destinationAddress;
+        tripDetail.pickup = LatLng(pickupLat, pickupLng);
+        tripDetail.destination = LatLng(destinationLat, destinationLng);
+        tripDetail.paymentMethod = paymentMethod;
+        tripDetail.riderName = riderName;
+        tripDetail.riderPhone = riderPhone;
+
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext context) => NotificationDialog(tripDetail: tripDetail,),
+        );
       }
     });
   }

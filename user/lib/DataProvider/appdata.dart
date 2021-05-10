@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:uber/datamodels/address.dart';
 
-class Appdata extends ChangeNotifier{
+class AppData extends ChangeNotifier{
    Address pickupAddress;
    Address destinationAddress;
 

@@ -14,11 +14,18 @@ import 'mainpage.dart';
 class LoginPage extends StatelessWidget {
 
   static const String id = 'login';
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   TextEditingController emailEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  void showSnackBar(String title){
+    final snackbar = SnackBar(
+      content: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 15.0),),
+    );
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
 
   void loginUser(BuildContext context) async {
     // Show please wait dialog
@@ -34,7 +41,8 @@ class LoginPage extends StatelessWidget {
         password: passwordEditingController.text)
         .catchError((errorMsg) {
           Navigator.pop(context);
-          displayToastMessage("Error: " + errorMsg.toString(), context);
+          showSnackBar("Please try again");
+          // displayToastMessage("Error: " + errorMsg.toString(), context);
     })).user;
 
     Navigator.pop(context);
@@ -45,15 +53,17 @@ class LoginPage extends StatelessWidget {
           Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
         }
         else {
+          showSnackBar("No record exists for this user. Please create new account");
           // _firebaseAuth.signOut();
-          displayToastMessage(
-              "No record exists for this user. Please create new account",
-              context);
+          // displayToastMessage(
+          //     "No record exists for this user. Please create new account",
+          //     context);
         }
       });
     }
     else {
-      displayToastMessage("Error occured, can not be signed", context);
+      showSnackBar("PLease try again");
+      // displayToastMessage("Error occured, can not be signed", context);
     }
   }
 
@@ -128,11 +138,15 @@ class LoginPage extends StatelessWidget {
                           color: BrandColors.colorGreen,
                           onPressed: () {
                             if (!emailEditingController.text.contains("@")) {
-                              displayToastMessage(
-                                  "Email address is not valid", context);
+                              // displayToastMessage(
+                              //     "Email address is not valid", context);
+                              showSnackBar("Please provide a valid email address");
+                              return;
                             } else if (passwordEditingController.text.isEmpty) {
-                              displayToastMessage(
-                                  "Password is mandoatory", context);
+                              showSnackBar("Please provide a valid password");
+                              return;
+                              // displayToastMessage(
+                              //     "Password is mandoatory", context);
                             } else {
                               loginUser(context);
                             }

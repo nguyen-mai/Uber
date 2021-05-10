@@ -1,4 +1,3 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:driver/globalvariables.dart';
 import 'package:driver/screens/vehicleinfo.dart';
 import 'package:driver/widgets/ProgressDialog.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../brand_colors.dart';
-import '../main.dart';
 import 'loginpage.dart';
 
 
@@ -23,6 +21,14 @@ class RegistrationPage extends StatelessWidget {
   TextEditingController passwordEditingController = TextEditingController();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  void showSnackBar(String title){
+    final snackbar = SnackBar(
+      content: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 15.0),),
+    );
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
 
   void registerUser(BuildContext context) async {
     showDialog(
@@ -37,7 +43,8 @@ class RegistrationPage extends StatelessWidget {
         password: passwordEditingController.text)
         .catchError((errorMsg) {
           Navigator.pop(context);
-          displayToastMessage("Error: " + errorMsg.toString(), context);
+          showSnackBar("Please try again");
+          // displayToastMessage("Error: " + errorMsg.toString(), context);
     }))
         .user;
 
@@ -59,7 +66,8 @@ class RegistrationPage extends StatelessWidget {
       Navigator.pushNamed(context, VehicleInfoPage.id);
     } else {
       // error occured - display error msg
-      displayToastMessage("Driver account has not been created", context);
+      // displayToastMessage("Driver account has not been created", context);
+      showSnackBar("Driver account has not been created");
     }
   }
 
@@ -171,17 +179,25 @@ class RegistrationPage extends StatelessWidget {
                           color: BrandColors.colorGreen,
                           onPressed: () {
                             if (nameEditingController.text.length < 1) {
-                              displayToastMessage(
-                                  "Name must be at least 1 character", context);
+                              // displayToastMessage(
+                              //     "Name must be at least 1 character", context);
+                              showSnackBar("Please provide a valid fullname");
+                              return;
                             } else if (!emailEditingController.text.contains("@")) {
-                              displayToastMessage(
-                                  "Email address is not valid", context);
+                              // displayToastMessage(
+                              //     "Email address is not valid", context);
+                              showSnackBar("Please provide a valid email address");
+                              return;
                             } else if (phoneEditingController.text.isEmpty) {
-                              displayToastMessage(
-                                  "Phone number is mandatory", context);
+                              // displayToastMessage(
+                              //     "Phone number is mandatory", context);
+                              showSnackBar("Please provide a valid phone number");
+                              return;
                             } else if (passwordEditingController.text.length < 8) {
-                              displayToastMessage(
-                                  "Password must be at least 8 character", context);
+                              showSnackBar("Please provide a valid password");
+                              return;
+                              // displayToastMessage(
+                              //     "Password must be at least 8 character", context);
                             } else {
                               registerUser(context);
                             }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:connectivity/connectivity.dart';
@@ -12,7 +13,7 @@ import 'package:uber/datamodels/directiondetails.dart';
 import 'package:uber/datamodels/user.dart';
 import 'package:uber/globevariable.dart';
 import 'package:provider/provider.dart';
-import 'package:uber/main.dart';
+import 'package:http/http.dart' as http;
 
 class HelperMethod {
   static void getCurrentUserInfo() async {
@@ -24,7 +25,7 @@ class HelperMethod {
     usersRef.once().then((DataSnapshot snapshot) {
       if (snapshot.value != null) {
         //print(snapshot.value);
-        currentUserInfo = UserInfomation.fromSnapshot(snapshot);
+        currentUserInfo = UserInformation.fromSnapshot(snapshot);
         //print('My name is ${currentUserInfo.fullName}');
         userName = currentUserInfo.fullName;
         //print(userName);
@@ -35,29 +36,29 @@ class HelperMethod {
   }
 
   static Future<String> findCordinateAndress(Position position, context) async {
-    String placeAndress = '';
+    String placeAddress = '';
     var connectivityReslut = await Connectivity().checkConnectivity();
     if (connectivityReslut != ConnectivityResult.mobile &&
         connectivityReslut != ConnectivityResult.wifi) {
-      return placeAndress;
+      return placeAddress;
     }
     var url = Uri.parse(
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=${mapKey}');
     var response = await RequestHelper.getRequest(url);
     if (response != "failed") {
-      placeAndress = response['results'][0]['formatted_address'];
-      Address pickupAndress = new Address();
-      pickupAndress.longitude = position.longitude;
-      pickupAndress.latitude = position.latitude;
-      pickupAndress.placeName = placeAndress;
+      placeAddress = response['results'][0]['formatted_address'];
+      Address pickupAddress = new Address();
+      pickupAddress.longitude = position.longitude;
+      pickupAddress.latitude = position.latitude;
+      pickupAddress.placeName = placeAddress;
 
-      Provider.of<Appdata>(context, listen: false)
-          .updatePickupAddress(pickupAndress);
+      Provider.of<AppData>(context, listen: false)
+          .updatePickupAddress(pickupAddress);
     }
     /* if(response=="failed"){
       return "Unknown";
     }*/
-    return placeAndress;
+    return placeAddress;
   }
 
   static Future<DirectionDetails> getDirectionDetails(
@@ -105,5 +106,42 @@ class HelperMethod {
     int randInt = randomGenerator.nextInt(max);
 
     return randInt.toDouble();
+  }
+
+  static sendNotification(String token, context, String userID) async {
+    var destination = Provider.of<AppData>(context, listen: false).destinationAddress;
+
+
+    Map<String, String> headerMap = {
+      'Content-Type': 'application/json',
+      'Authorization': serverKey,
+    };
+
+    Map notificationMap = {
+      'title': 'NEW TRIP REQUEST',
+      'body': 'Destination, ${destination.placeName}',
+    };
+
+    Map dataMap = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+      'user_id': userID,
+    };
+
+    Map bodyMap = {
+      'notification': notificationMap,
+      'data': dataMap,
+      'priority': 'high',
+      'to': token,
+    };
+
+    var response = await http.post(
+      'https://fcm.googleapis.com/fcm/send',
+      headers: headerMap,
+      body: jsonEncode(bodyMap)
+    );
+
+    print(response.body);
   }
 }
