@@ -21,7 +21,7 @@ class HelperMethod {
     String userId = currentFirebaseUser.uid;
 
     DatabaseReference usersRef =
-        FirebaseDatabase.instance.reference().child('users').child(userId);
+    FirebaseDatabase.instance.reference().child('users').child(userId);
     usersRef.once().then((DataSnapshot snapshot) {
       if (snapshot.value != null) {
         //print(snapshot.value);
@@ -75,17 +75,17 @@ class HelperMethod {
     DirectionDetails directionDetails = DirectionDetails();
 
     directionDetails.durationText =
-        response['routes'][0]['legs'][0]['duration']['text'];
+    response['routes'][0]['legs'][0]['duration']['text'];
     directionDetails.durationValue =
-        response['routes'][0]['legs'][0]['duration']['value'];
+    response['routes'][0]['legs'][0]['duration']['value'];
 
     directionDetails.distanceText =
-        response['routes'][0]['legs'][0]['distance']['text'];
+    response['routes'][0]['legs'][0]['distance']['text'];
     directionDetails.distanceValue =
-        response['routes'][0]['legs'][0]['distance']['value'];
+    response['routes'][0]['legs'][0]['distance']['value'];
 
     directionDetails.encodedPoints =
-        response['routes'][0]['overview_polyline']['points'];
+    response['routes'][0]['overview_polyline']['points'];
 
     return directionDetails;
   }
@@ -137,9 +137,9 @@ class HelperMethod {
     };
 
     var response = await http.post(
-      'https://fcm.googleapis.com/fcm/send',
-      headers: headerMap,
-      body: jsonEncode(bodyMap)
+        'https://fcm.googleapis.com/fcm/send',
+        headers: headerMap,
+        body: jsonEncode(bodyMap)
     );
 
     print(response.body);
