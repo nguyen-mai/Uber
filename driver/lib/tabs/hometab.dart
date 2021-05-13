@@ -16,21 +16,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 class HomeTab extends StatefulWidget {
   @override
   _HomeTabState createState() => _HomeTabState();
 }
 
 class _HomeTabState extends State<HomeTab> {
-
   GoogleMapController mapController;
   Completer<GoogleMapController> _controller = Completer();
+<<<<<<< Updated upstream
 
   DatabaseReference tripRequestRef;
 
   var geoLocator = Geolocator();
   var locationOptions = LocationOptions(accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
+=======
+  Position currentPosition;
+
+  DatabaseReference tripRequestRef;
+
+  var geolocator = Geolocator();
+  var locationOptions = LocationOptions(
+      accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
+>>>>>>> Stashed changes
 
   String availabilityTitle = 'GO ONLINE';
   Color availabilityColor = BrandColors.colorOrange;
@@ -39,14 +47,20 @@ class _HomeTabState extends State<HomeTab> {
 
 
   void getCurrentPosition() async {
+<<<<<<< Updated upstream
 
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+=======
+    Position position = await Geolocator().getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+>>>>>>> Stashed changes
     currentPosition = position;
     LatLng pos = LatLng(position.latitude, position.longitude);
     mapController.animateCamera(CameraUpdate.newLatLng(pos));
 
   }
 
+<<<<<<< Updated upstream
   void getCurrentDriverInfo () async {
 
     currentFirebaseUser = await FirebaseAuth.instance.currentUser();
@@ -60,6 +74,19 @@ class _HomeTabState extends State<HomeTab> {
 
     });
 
+=======
+
+  void getCurrentDriverInfo() async {
+    currentFirebaseUser = await FirebaseAuth.instance.currentUser;
+    DatabaseReference driverRef = FirebaseDatabase.instance
+        .reference()
+        .child("drivers/${currentFirebaseUser.uid}");
+    driverRef.once().then((DataSnapshot snapshot) {
+      if (snapshot != null) {
+        currentDriverInfo = Driver.fromSnapShot(snapshot);
+      }
+    });
+>>>>>>> Stashed changes
     PushNotificationService pushNotificationService = PushNotificationService();
 
     pushNotificationService.initialize(context);
@@ -97,7 +124,6 @@ class _HomeTabState extends State<HomeTab> {
           width: double.infinity,
           color: BrandColors.colorPrimary,
         ),
-
         Positioned(
           top: 60,
           left: 0,
@@ -108,6 +134,7 @@ class _HomeTabState extends State<HomeTab> {
               AvailabilityButton(
                 title: availabilityTitle,
                 color: availabilityColor,
+<<<<<<< Updated upstream
                 onPressed: (){
 
 
@@ -147,6 +174,41 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   );
 
+=======
+                onPressed: () {
+
+
+                  showModalBottomSheet(
+                      isDismissible: false,
+                      context: context,
+                      builder: (BuildContext context) => ConfirmSheet(
+                            title: (!isAvailable) ? 'GO ONLINE' : 'GO OFFLINE',
+                            subtitle: (!isAvailable)
+                                ? 'You are about to become available to receive trip requests'
+                                : 'You will stop receiving new trip requests',
+                            onPressed: () {
+                              if (!isAvailable) {
+                                GoOnLine();
+                                getLocationUpdates();
+                                Navigator.pop(context);
+
+                                setState(() {
+                                  availabilityColor = BrandColors.colorGreen;
+                                  availabilityTitle = 'GO OFFLINE';
+                                  isAvailable = true;
+                                });
+                              } else {
+                                goOffline();
+                                Navigator.pop(context);
+                                setState(() {
+                                  availabilityColor = BrandColors.colorOrange;
+                                  availabilityTitle = 'GO ONLINE';
+                                  isAvailable = false;
+                                });
+                              }
+                            },
+                          ));
+>>>>>>> Stashed changes
                 },
               ),
             ],
@@ -159,6 +221,7 @@ class _HomeTabState extends State<HomeTab> {
 
   void GoOnline(){
     Geofire.initialize('driversAvailable');
+<<<<<<< Updated upstream
     Geofire.setLocation(currentFirebaseUser.uid, currentPosition.latitude, currentPosition.longitude);
 
     tripRequestRef = FirebaseDatabase.instance.reference().child('drivers/${currentFirebaseUser.uid}/newtrip');
@@ -168,6 +231,19 @@ class _HomeTabState extends State<HomeTab> {
 
     });
 
+=======
+
+    // Setting location data
+    Geofire.setLocation(currentFirebaseUser.uid, currentPosition.latitude,
+        currentPosition.longitude);
+
+    tripRequestRef = FirebaseDatabase.instance
+        .reference()
+        .child('drivers/${currentFirebaseUser.uid}/new_trip');
+    tripRequestRef.set('waiting');
+
+    tripRequestRef.onValue.listen((event) {});
+>>>>>>> Stashed changes
   }
 
   void GoOffline (){
@@ -179,6 +255,7 @@ class _HomeTabState extends State<HomeTab> {
 
   }
 
+<<<<<<< Updated upstream
   void getLocationUpdates(){
 
     homeTabPositionStream = geoLocator.getPositionStream(locationOptions).listen((Position position) {
@@ -186,11 +263,22 @@ class _HomeTabState extends State<HomeTab> {
 
       if(isAvailable){
         Geofire.setLocation(currentFirebaseUser.uid, position.latitude, position.longitude);
+=======
+  // Update driver location
+  void getLocationUpdates() {
+    homeTabPositionStream = geolocator
+        .getPositionStream(locationOptions)
+        .listen((Position position) {
+      currentPosition = position;
+
+      if (isAvailable) {
+        Geofire.setLocation(
+            currentFirebaseUser.uid, position.latitude, position.longitude);
+>>>>>>> Stashed changes
       }
 
       LatLng pos = LatLng(position.latitude, position.longitude);
       mapController.animateCamera(CameraUpdate.newLatLng(pos));
-
     });
 
   }

@@ -5,7 +5,7 @@ class TripDetail {
   String pickupAddress;
   LatLng pickup;
   LatLng destination;
-  String rideID;
+  String riderID;
   String paymentMethod;
   String riderName;
   String riderPhone;
@@ -16,8 +16,14 @@ class TripDetail {
     this.destination,
     this.pickup,
     this.paymentMethod,
+<<<<<<< Updated upstream
     this.riderName,
     this.rideID,
     this.riderPhone,
+=======
+    this.driverName,
+    this.riderID,
+    this.driverPhone,
+>>>>>>> Stashed changes
   });
 }

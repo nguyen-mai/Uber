@@ -60,6 +60,17 @@ class MyApp extends StatelessWidget {
           LoginPage.id: (context) => LoginPage(),
         },
       ),
+<<<<<<< Updated upstream
+=======
+       //initialRoute: LoginPage.id ,
+      initialRoute: (currentFirebaseUser == null) ? LoginPage.id : MainPage.id,
+      routes: {
+        RegistrationPage.id: (context) => RegistrationPage(),
+        VehicleInfoPage.id: (context) => VehicleInfoPage(),
+        LoginPage.id: (context) => LoginPage(),
+        MainPage.id: (context) => MainPage(),
+      },
+>>>>>>> Stashed changes
     );
   }
 }

@@ -1,5 +1,10 @@
+<<<<<<< Updated upstream
 
 import 'package:driver/datamodels/history.dart';
+=======
+import 'dart:html';
+
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 
 class AppData extends ChangeNotifier{
@@ -7,6 +12,10 @@ class AppData extends ChangeNotifier{
   String earnings = '0';
   int tripCount = 0;
   List<String> tripHistoryKeys = [];
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   List<History> tripHistory = [];
 
   void updateEarnings(String newEarnings){

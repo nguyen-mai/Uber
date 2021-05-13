@@ -137,9 +137,15 @@ class HelperMethod {
     };
 
     var response = await http.post(
+<<<<<<< Updated upstream:user/lib/Helper/helperMethods.dart
         'https://fcm.googleapis.com/fcm/send',
         headers: headerMap,
         body: jsonEncode(bodyMap)
+=======
+      'https://fcm.googleapis.com/fcm/send',
+      headers: headerMap,
+      body: jsonEncode(bodyMap)
+>>>>>>> Stashed changes:User/lib/Helper/helperMethods.dart
     );
 
     print(response.body);
