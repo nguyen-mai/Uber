@@ -5,6 +5,7 @@ import 'package:driver/helpers/helperMethods.dart';
 import 'package:driver/screens/newtrippage.dart';
 import 'package:driver/widgets/BrandDivier.dart';
 import 'package:driver/widgets/ProgressDialog.dart';
+import 'package:driver/widgets/TaxiButton.dart';
 import 'package:driver/widgets/TaxiOutlineButton.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,17 +13,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:toast/toast.dart';
 
-class NotificationDialog extends StatelessWidget{
+class NotificationDialog extends StatelessWidget {
 
-  final TripDetail tripDetail;
+  final TripDetail tripDetails;
 
-  NotificationDialog({this.tripDetail});
+  NotificationDialog({this.tripDetails});
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.0),
       ),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
@@ -30,34 +31,38 @@ class NotificationDialog extends StatelessWidget{
         margin: EdgeInsets.all(4),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(4)
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(4)
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+
             SizedBox(height: 30.0,),
 
-            Image.asset("images/taxi.png", width: 100,),
+            Image.asset('images/taxi.png', width: 100,),
 
             SizedBox(height: 16.0,),
 
-            Text("NEW TRIP REQUEST", style: TextStyle(fontFamily: "Brand-Bold", fontSize: 18),),
+            Text('NEW TRIP REQUEST', style: TextStyle(fontFamily: 'Brand-Bold', fontSize: 18),),
 
             SizedBox(height: 30.0,),
 
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
+
                 children: <Widget>[
+
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Image.asset("images/pickicon.png", height: 16, width: 16,),
+                      Image.asset('images/pickicon.png', height: 16, width: 16,),
                       SizedBox(width: 18,),
 
-                      Text(tripDetail.pickupAddress, style: TextStyle(fontSize: 18),),
-                      // Text("Helo", style: TextStyle(fontSize: 18),),
+                      Expanded(child: Container(child: Text(tripDetails.pickupAddress, style: TextStyle(fontSize: 18),)))
+
+
                     ],
                   ),
 
@@ -66,13 +71,15 @@ class NotificationDialog extends StatelessWidget{
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Image.asset("images/desticon.png", height: 16, width: 16,),
+                      Image.asset('images/desticon.png', height: 16, width: 16,),
                       SizedBox(width: 18,),
 
-                      Text(tripDetail.destinationAddress, style: TextStyle(fontSize: 18),),
-                      // Text("Hi", style: TextStyle(fontSize: 18),),
+                      Expanded(child: Container(child: Text(tripDetails.destinationAddress, style: TextStyle(fontSize: 18),)))
+
+
                     ],
                   ),
+
                 ],
               ),
             ),
@@ -88,14 +95,15 @@ class NotificationDialog extends StatelessWidget{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+
                   Expanded(
                     child: Container(
                       child: TaxiOutlineButton(
-                        title: "DECLINE",
+                        title: 'DECLINE',
                         color: BrandColors.colorPrimary,
                         onPressed: () async {
-                          // assetsAudioPlayer.stop();
-                          // Navigator.pop(context);
+                          //assetsAudioPlayer.stop();
+                          Navigator.pop(context);
                         },
                       ),
                     ),
@@ -105,16 +113,17 @@ class NotificationDialog extends StatelessWidget{
 
                   Expanded(
                     child: Container(
-                      child: TaxiOutlineButton(
-                        title: "ACCEPT",
+                      child: TaxiButton(
+                        title: 'ACCEPT',
                         color: BrandColors.colorGreen,
                         onPressed: () async {
-                          // assetsAudioPlayer.stop();
-                          checkAvailability(context);
+                          //assetsAudioPlayer.stop();
+                          checkAvailablity(context);
                         },
                       ),
                     ),
                   ),
+
                 ],
               ),
             ),
@@ -127,41 +136,48 @@ class NotificationDialog extends StatelessWidget{
     );
   }
 
-  void checkAvailability(context) {
+  void checkAvailablity(context){
+
+    //show please wait dialog
     showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (BuildContext context) => ProgressDialog(status: "Accepting request",),
+      builder: (BuildContext context) => ProgressDialog(status: 'Accepting request',),
     );
-    DatabaseReference newRideRef = FirebaseDatabase.instance.reference().child("drivers/${currentFirebaseUser.uid}/newtrip");
+
+    DatabaseReference newRideRef = FirebaseDatabase.instance.reference().child('drivers/${currentFirebaseUser.uid}/newtrip');
     newRideRef.once().then((DataSnapshot snapshot) {
+
       Navigator.pop(context);
       Navigator.pop(context);
-      
+
       String thisRideID = "";
-      if(snapshot.value != null) {
+      if(snapshot.value != null){
         thisRideID = snapshot.value.toString();
       }
-      else {
-        Toast.show("Ride has been cancelled", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      else{
+        Toast.show("Ride not found", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
       }
-      if(thisRideID == tripDetail.riderID) {
-        newRideRef.set("accepted");
-        HelperMethod.disableHomeTabLocationUpdates();
+
+      if(thisRideID == tripDetails.rideID){
+        newRideRef.set('accepted');
+        HelperMethod.disableHomTabLocationUpdates();
         Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NewTripPage(tripDetail: tripDetail,)),
-        );
+            context,
+            MaterialPageRoute(builder: (context) => NewTripPage(tripDetails: tripDetails,),
+            ));
       }
-      else if(thisRideID == "cancelled") {
-        Toast.show("Ride has been cancelled", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      else if(thisRideID == 'cancelled'){
+        Toast.show("Ride has been cancelled", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
       }
-      else if(thisRideID == "timeout") {
-        Toast.show("Ride has been cancelled", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      else if(thisRideID == 'timeout'){
+        Toast.show("Ride has timed out", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
       }
-      else {
-        Toast.show("Ride has been cancelled", context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      else{
+        Toast.show("Ride not found", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
       }
+
     });
   }
+
 }

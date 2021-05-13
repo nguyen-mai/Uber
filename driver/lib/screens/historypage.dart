@@ -4,7 +4,7 @@ import 'package:driver/widgets/BrandDivier.dart';
 import 'package:driver/widgets/HistoryTile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:driver/datamodels/history.dart';
 class HistoryPage extends StatefulWidget {
   @override
   _HistoryPageState createState() => _HistoryPageState();

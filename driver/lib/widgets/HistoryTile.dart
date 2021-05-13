@@ -1,13 +1,12 @@
+import 'package:driver/brand_colors.dart';
+import 'package:driver/datamodels/history.dart';
 import 'package:driver/helpers/helperMethods.dart';
 import 'package:flutter/material.dart';
-
-import '../brand_colors.dart';
 
 
 class HistoryTile extends StatelessWidget {
 
   final History history;
-
   HistoryTile({this.history});
 
   @override
@@ -44,6 +43,7 @@ class HistoryTile extends StatelessWidget {
                   SizedBox(width: 18,),
 
                   Text(history.destination, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 18),),
+
 
                 ],
               ),

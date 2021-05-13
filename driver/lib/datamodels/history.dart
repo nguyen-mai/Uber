@@ -1,23 +1,29 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class History {
-  String destinationAddress;
-  String pickupAddress;
-  LatLng pickup;
-  LatLng destination;
-  String riderID;
   String paymentMethod;
-  String riderName;
-  String riderPhone;
+  String createdAt;
+  String status;
+  String fares;
+  String destination;
+  String pickup;
 
   History({
-    this.destinationAddress,
-    this.pickupAddress,
-    this.destination,
-    this.pickup,
     this.paymentMethod,
-    this.riderName,
-    this.riderID,
-    this.riderPhone,
+    this.createdAt,
+    this.status,
+    this.destination,
+    this.fares,
+    this.pickup,
   });
+  History.fromSnapshot(DataSnapshot snapshot){
+    paymentMethod=snapshot.value["payment_method"];
+    createdAt=snapshot.value["created_at"];
+    fares=snapshot.value["fares"];
+    destination=snapshot.value["destination_address"];
+    pickup=snapshot.value["pickup_andress"];
+    paymentMethod=snapshot.value["payment_method"];
+
+  }
 }
